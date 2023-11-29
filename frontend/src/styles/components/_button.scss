@@ -1,0 +1,66 @@
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 0.6em 1.2em;
+  border: none;
+  border-radius: 8px;
+  color: var(--clr-text-400);
+  background-color: transparent;
+  opacity: 0.9;
+
+  &:is(:hover, :focus) {
+    color: var(--clr-text-700);
+    background: var(--bg-transperent);
+    outline: none !important;
+  }
+
+  &.btn--primary {
+    color: var(--clr-white-700);
+    background: var(--clr-primary-700);
+
+    &:is(:hover, :focus) {
+      opacity: 1;
+    }
+
+    &:focus {
+      outline: 1px dashed var(--clr-text-700) !important;
+    }
+  }
+
+  &.btn--danger {
+    color: var(--clr-danger-700);
+
+    &:is(:hover, :focus) {
+      color: var(--clr-white-700);
+      background: var(--clr-danger-700);
+    }
+  }
+
+  &.btn--transperent {
+    color: var(--clr-white-700);
+    background: var(--bg-transperent);
+
+    &:is(:hover, :focus) {
+      opacity: 1;
+    }
+  }
+
+  svg {
+    font-size: 0.9em;
+    transform: translateY(-6.5%);
+  }
+
+  &:has(svg) {
+    padding-left: 1.1em;
+  }
+
+  @media (width >= 750px) {
+    font-size: 1.05rem;
+    padding-bottom: 0.45em;
+  }
+}
