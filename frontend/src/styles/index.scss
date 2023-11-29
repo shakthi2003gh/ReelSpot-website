@@ -1,0 +1,13 @@
+@forward "utilities";
+
+html {
+  user-select: text;
+}
+
+body {
+  font-weight: var(--ff-poppins);
+  height: 100dvh;
+  color: var(--clr-text-400);
+  background-color: var(--bg);
+  overflow: hidden;
+}

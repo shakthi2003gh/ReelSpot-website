@@ -1,0 +1,20 @@
+:root {
+  --clr-primary-700: rgba(44, 156, 242, 1);
+  --clr-primary-400: rgba(44, 156, 242, 0.7);
+  --clr-danger-700: rgba(242, 64, 64, 1);
+  --clr-danger-400: rgba(242, 64, 64, 0.7);
+  --clr-white-700: rgba(253, 255, 252, 1);
+  --clr-white-400: rgba(253, 255, 252, 0.7);
+  --clr-dark-700: rgba(21, 20, 20, 1);
+  --clr-dark-400: rgba(21, 20, 20, 0.7);
+
+  --border: rgba(191, 191, 191, 1);
+  --bg-transperent: rgba(205, 205, 205, 0.22);
+
+  --clr-text-700: var(--clr-dark-700);
+  --clr-text-400: var(--clr-dark-400);
+  --bg: var(--clr-white-700);
+
+  --ff-inter: "Inter", sans-serif;
+  --ff-poppins: "Poppins", sans-serif;
+}
