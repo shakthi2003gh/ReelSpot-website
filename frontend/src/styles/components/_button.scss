@@ -13,7 +13,7 @@
   background-color: transparent;
   opacity: 0.9;
 
-  &:is(:hover, :focus) {
+  &:is(:hover, :focus-visible) {
     color: var(--clr-text-700);
     background: var(--bg-transperent);
     outline: none !important;
@@ -23,7 +23,7 @@
     color: var(--clr-white-700);
     background: var(--clr-primary-700);
 
-    &:is(:hover, :focus) {
+    &:is(:hover, :focus-visible) {
       opacity: 1;
     }
 
@@ -35,7 +35,7 @@
   &.btn--danger {
     color: var(--clr-danger-700);
 
-    &:is(:hover, :focus) {
+    &:is(:hover, :focus-visible) {
       color: var(--clr-white-700);
       background: var(--clr-danger-700);
     }
@@ -45,7 +45,7 @@
     color: var(--clr-white-700);
     background: var(--bg-transperent);
 
-    &:is(:hover, :focus) {
+    &:is(:hover, :focus-visible) {
       opacity: 1;
     }
   }

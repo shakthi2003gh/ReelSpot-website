@@ -71,9 +71,10 @@
         padding-inline: 0.55rem;
       }
 
-      a,
-      button {
-        gap: 0;
+      a {
+        display: grid;
+        place-content: center;
+        padding-right: 15px;
       }
 
       button {
@@ -82,9 +83,7 @@
       }
 
       span {
-        display: inline-block;
-        width: 0;
-        overflow: hidden;
+        display: none;
       }
     }
   }
