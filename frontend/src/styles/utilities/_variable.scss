@@ -18,3 +18,9 @@
   --ff-inter: "Inter", sans-serif;
   --ff-poppins: "Poppins", sans-serif;
 }
+
+:root [theme="dark"] {
+  --clr-text-700: var(--clr-white-700);
+  --clr-text-400: var(--clr-white-400);
+  --bg: var(--clr-dark-700);
+}
