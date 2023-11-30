@@ -27,7 +27,7 @@
       opacity: 1;
     }
 
-    &:focus {
+    &:focus-visible {
       outline: 1px dashed var(--clr-text-700) !important;
     }
   }

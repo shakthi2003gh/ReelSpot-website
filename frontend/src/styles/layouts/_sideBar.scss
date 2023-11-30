@@ -15,62 +15,14 @@
   transition: transform 0.25s ease-in;
   overflow: hidden auto;
 
-  nav {
-    ul {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      color: inherit;
-    }
-
-    svg:nth-child(2) {
-      display: none;
-    }
-
-    a {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      text-decoration: none;
-      padding: 0.6em 1em;
-      color: inherit;
-      border-radius: 6px;
-
-      &:is(:hover, :focus) {
-        color: var(--clr-text-700);
-        background-color: var(--bg-transperent);
-        outline: none;
-      }
-
-      &.active {
-        font-weight: 700;
-        color: var(--clr-white-700);
-        background-color: var(--clr-primary-700);
-
-        &:focus {
-          outline: 1px dashed var(--clr-text-700);
-        }
-
-        svg:first-child {
-          display: none;
-        }
-
-        svg:nth-child(2) {
-          display: initial;
-        }
-      }
-
-      span {
-        margin-top: 0.1rem;
-      }
-
-      @media (width >= 750px) {
-        border-radius: 8px;
-      }
-    }
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: inherit;
   }
 
   .actions {
