@@ -1,0 +1,24 @@
+.navigation {
+  font-size: 1.3rem;
+  padding: 0.4rem 1rem;
+  border-top: 1px solid var(--border);
+
+  .nav-links {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 5px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: var(--clr-text-400);
+
+    a {
+      padding: 0.48rem 0.8rem 0.4rem;
+    }
+
+    span {
+      display: none;
+    }
+  }
+}

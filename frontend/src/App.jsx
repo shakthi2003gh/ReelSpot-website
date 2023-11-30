@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import useMediaQuery from "./hooks/useMediaQuery";
 import Header from "./layouts/header";
 import SideBar from "./layouts/sideBar";
+import Navigation from "./layouts/navigation";
 import Home from "./pages/home";
 import Movies from "./pages/movies";
 import Televisions from "./pages/televisions";
@@ -27,6 +28,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
+
+        {!isNotMobileDevice && <Navigation />}
       </main>
     </>
   );
