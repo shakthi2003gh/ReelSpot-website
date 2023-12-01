@@ -31,8 +31,19 @@ main {
     overflow: hidden auto;
   }
 
+  .backdrop {
+    position: absolute;
+    display: none;
+    background-color: var(--clr-text-400);
+    opacity: 0.2;
+  }
+
   @media (width >= 450px) {
     flex-direction: row;
+
+    [data-open="true"] ~ .backdrop {
+      display: block;
+    }
   }
 
   @media (width >= 750px) {
@@ -40,6 +51,10 @@ main {
 
     > div {
       padding: 1rem;
+    }
+
+    [data-open="true"] ~ .backdrop {
+      display: none;
     }
   }
 }

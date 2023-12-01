@@ -11,14 +11,14 @@ import Favorites from "./pages/favorites";
 import WatchList from "./pages/watchlist";
 
 function App() {
-  const isNotMobileDevice = useMediaQuery(450);
+  const isMobileDevice = !useMediaQuery(450);
 
   return (
     <>
       <Header />
 
       <main className="container">
-        {isNotMobileDevice && <SideBar />}
+        {!isMobileDevice && <SideBar />}
 
         <Routes>
           <Route path="/watchlist" element={<WatchList />} />
@@ -29,7 +29,9 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
 
-        {!isNotMobileDevice && <Navigation />}
+        <div className="backdrop"></div>
+
+        {isMobileDevice && <Navigation />}
       </main>
     </>
   );

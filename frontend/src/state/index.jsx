@@ -21,7 +21,7 @@ export function useController() {
 export default function StateProvider({ children }) {
   const [user, setUser] = useState(null);
   const [theme, setTheme] = useState(InitialTheme);
-  const [isMenuOpen, setMenuOpen] = useState(true);
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => {
