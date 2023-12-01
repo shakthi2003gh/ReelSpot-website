@@ -1,0 +1,44 @@
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+  overflow: hidden;
+
+  &:has(:focus) {
+    color: var(--clr-text-700);
+  }
+
+  &.error {
+    color: var(--clr-danger-700);
+  }
+
+  label {
+    text-transform: capitalize;
+  }
+
+  input {
+    font-size: 1.2em;
+    padding-block: 0.4rem;
+    border: none;
+    border-bottom: 1px solid;
+    color: inherit;
+    background-color: transparent;
+    outline: none !important;
+  }
+
+  .error-message {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+
+  @media (width >=750px) {
+    font-size: 1.05rem;
+  }
+}
