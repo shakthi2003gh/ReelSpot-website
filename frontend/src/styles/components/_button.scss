@@ -52,7 +52,6 @@
 
   svg {
     font-size: 0.9em;
-    transform: translateY(-6.5%);
   }
 
   &:has(svg) {
@@ -62,5 +61,9 @@
   @media (width >= 750px) {
     font-size: 1.05rem;
     padding-bottom: 0.45em;
+
+    svg {
+      transform: translateY(-6.5%);
+    }
   }
 }

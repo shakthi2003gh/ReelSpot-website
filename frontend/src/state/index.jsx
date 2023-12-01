@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const THEME_VAR_NAME = import.meta.env.VITE_THEME;
 const InitialTheme = localStorage.getItem(THEME_VAR_NAME) || "light";
@@ -23,6 +24,8 @@ export default function StateProvider({ children }) {
   const [theme, setTheme] = useState(InitialTheme);
   const [isMenuOpen, setMenuOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   const toggleTheme = () => {
     setTheme((prevTheme) => {
       const theme = prevTheme === "dark" ? "light" : "dark";
@@ -38,10 +41,24 @@ export default function StateProvider({ children }) {
     setMenuOpen((isOpen) => !isOpen);
   };
 
+  const loginUser = (payload) => {
+    setUser(payload);
+
+    navigate("/");
+  };
+
+  const signupUser = (payload) => {
+    setUser(payload);
+
+    navigate("/");
+  };
+
+  const oppositeTheme = theme === "dark" ? "light" : "dark";
   const state = {
     user,
     ui: {
       theme,
+      oppositeTheme,
       isMenuOpen,
     },
   };
@@ -49,6 +66,8 @@ export default function StateProvider({ children }) {
   const controller = {
     toggleTheme,
     toggleMenuOpen,
+    loginUser,
+    signupUser,
   };
 
   return (

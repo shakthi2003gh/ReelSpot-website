@@ -19,7 +19,7 @@ body {
   }
 }
 
-main {
+main:not(.auth) {
   display: flex;
   flex-direction: column;
   height: calc(100dvh - 43.25px);

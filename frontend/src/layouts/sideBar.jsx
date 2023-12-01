@@ -4,7 +4,7 @@ import { useFetch, useController } from "../state";
 import NavLinks from "../components/navLinks";
 
 export default function SideBar() {
-  const { isMenuOpen, theme } = useFetch((state) => state.ui);
+  const { isMenuOpen, theme, oppositeTheme } = useFetch((state) => state.ui);
   const { toggleTheme } = useController();
 
   return (
@@ -16,7 +16,7 @@ export default function SideBar() {
       <div className="actions">
         <button className="btn toggle" onClick={toggleTheme}>
           {theme === "dark" ? <GoSun /> : <GoMoon />}
-          <span>{theme === "dark" ? "lightmode" : "darkmode"}</span>
+          <span>{oppositeTheme + "mode"}</span>
         </button>
 
         <button className="btn btn--danger">
