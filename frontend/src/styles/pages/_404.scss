@@ -1,0 +1,21 @@
+.page-not-found {
+  display: grid;
+  place-content: center;
+  place-items: center;
+  text-align: center;
+  color: var(--clr-text-700);
+
+  h1 {
+    font-family: var(--ff-inter);
+    text-transform: uppercase;
+    margin-block: 0 3rem;
+  }
+
+  svg {
+    font-size: 5rem;
+  }
+
+  a {
+    text-transform: capitalize;
+  }
+}

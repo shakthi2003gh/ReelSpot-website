@@ -1,6 +1,7 @@
 @forward "utilities";
 @forward "components";
 @forward "layouts";
+@forward "pages";
 
 html {
   user-select: none;
@@ -26,6 +27,7 @@ main {
   > div {
     width: 100%;
     height: 100%;
+    padding: 10px;
     overflow: hidden auto;
   }
 
@@ -35,5 +37,9 @@ main {
 
   @media (width >= 750px) {
     height: calc(100dvh - 58px);
+
+    > div {
+      padding: 1rem;
+    }
   }
 }
