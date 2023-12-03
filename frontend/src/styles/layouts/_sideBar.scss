@@ -1,3 +1,5 @@
+@use "../utilities/variable" as *;
+
 .side-bar {
   display: flex;
   flex-direction: column;
@@ -44,12 +46,12 @@
       font-size: 1.3em;
     }
 
-    @media (width >= 750px) {
+    @media (width >= $desktop-device) {
       padding: 1rem;
     }
   }
 
-  @media (width >= 450px) {
+  @media (width >= $tablet-device) {
     position: absolute;
 
     &[data-open="true"] {
@@ -57,7 +59,7 @@
     }
   }
 
-  @media (width >= 750px) {
+  @media (width >= $desktop-device) {
     position: static;
     transform: translate(0);
     font-size: 1rem;

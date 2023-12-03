@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useMediaQuery from "./../hooks/useMediaQuery";
 
 const THEME_VAR_NAME = import.meta.env.VITE_THEME;
 const InitialTheme = localStorage.getItem(THEME_VAR_NAME) || "light";
@@ -23,8 +24,15 @@ export default function StateProvider({ children }) {
   const [user, setUser] = useState(null);
   const [theme, setTheme] = useState(InitialTheme);
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const isTabletDevice = useMediaQuery(500);
+  const isDesktopDevice = useMediaQuery(1000);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isDesktopDevice && !isMenuOpen) setMenuOpen(true);
+    if (isTabletDevice && isMenuOpen) setMenuOpen(false);
+  }, [isTabletDevice, isDesktopDevice]);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => {
@@ -60,6 +68,11 @@ export default function StateProvider({ children }) {
       theme,
       oppositeTheme,
       isMenuOpen,
+    },
+    mediaQuery: {
+      isMobile: !isTabletDevice,
+      isTablet: isTabletDevice,
+      isDesktop: isDesktopDevice,
     },
   };
 

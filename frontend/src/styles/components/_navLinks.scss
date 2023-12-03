@@ -1,3 +1,5 @@
+@use "../utilities/variable" as *;
+
 .nav-links {
   color: var(--clr-text-700);
 
@@ -42,7 +44,7 @@
       margin-top: 0.1rem;
     }
 
-    @media (width >= 750px) {
+    @media (width >= $desktop-device) {
       border-radius: 8px;
     }
   }

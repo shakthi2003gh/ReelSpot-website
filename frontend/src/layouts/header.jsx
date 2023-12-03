@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { MdMenu } from "react-icons/md";
 import { useController, useFetch } from "../state";
-import useMediaQuery from "../hooks/useMediaQuery";
 
 export default function Header() {
-  const { theme } = useFetch((state) => state.ui);
+  const { ui, mediaQuery } = useFetch((state) => state);
   const { toggleMenuOpen } = useController();
-  const isNotMobileDevice = useMediaQuery(450);
+  const { theme } = ui;
+  const isNotMobileDevice = mediaQuery.isTablet;
 
   const handleEnter = (e) => {
     if (e.keyCode === 13) toggleMenuOpen();

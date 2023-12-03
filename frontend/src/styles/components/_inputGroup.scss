@@ -1,3 +1,5 @@
+@use "../utilities/variable" as *;
+
 .input-group {
   display: flex;
   flex-direction: column;
@@ -38,7 +40,7 @@
     }
   }
 
-  @media (width >=750px) {
+  @media (width >=$desktop-device) {
     font-size: 1.05rem;
   }
 }

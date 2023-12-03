@@ -1,3 +1,5 @@
+@use "../utilities/variable" as *;
+
 .btn {
   display: flex;
   align-items: center;
@@ -58,7 +60,7 @@
     padding-left: 1.1em;
   }
 
-  @media (width >= 750px) {
+  @media (width >= $desktop-device) {
     font-size: 1.05rem;
     padding-bottom: 0.45em;
 

@@ -1,3 +1,4 @@
+@use "./utilities/variable" as *;
 @forward "utilities";
 @forward "components";
 @forward "layouts";
@@ -38,7 +39,7 @@ main:not(.auth) {
     opacity: 0.2;
   }
 
-  @media (width >= 450px) {
+  @media (width >= $tablet-device) {
     flex-direction: row;
 
     [data-open="true"] ~ .backdrop {
@@ -46,7 +47,7 @@ main:not(.auth) {
     }
   }
 
-  @media (width >= 750px) {
+  @media (width >= $desktop-device) {
     height: calc(100dvh - 58px);
 
     > div {

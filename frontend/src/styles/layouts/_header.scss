@@ -1,3 +1,5 @@
+@use "../utilities/variable" as *;
+
 header {
   border-bottom: 1px solid var(--border);
 
@@ -8,7 +10,7 @@ header {
     gap: 1rem;
     padding: 5px 10px;
 
-    @media (width >= 750px) {
+    @media (width >= $desktop-device) {
       padding: 10px 20px;
     }
   }
@@ -42,7 +44,7 @@ header {
       }
     }
 
-    @media (width >= 750px) {
+    @media (width >= $desktop-device) {
       gap: 1rem;
 
       svg {

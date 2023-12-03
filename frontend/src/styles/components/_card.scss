@@ -1,3 +1,5 @@
+@use "../utilities/variable" as *;
+
 .card {
   font-size: 0.8rem;
   width: 120px;
@@ -75,12 +77,12 @@
     overflow: hidden;
   }
 
-  @media (width >= 450px) {
+  @media (width >= $tablet-device) {
     font-size: 0.95rem;
     width: 145px;
   }
 
-  @media (width >= 750px) {
+  @media (width >= $desktop-device) {
     font-size: 1.1rem;
     width: 170px;
   }

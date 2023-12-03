@@ -1,3 +1,5 @@
+@use "../utilities/variable" as *;
+
 main.auth {
   padding: 10px;
   overflow: hidden auto;
@@ -60,7 +62,7 @@ main.auth {
     }
   }
 
-  @media (width >= 750px) {
+  @media (width >= $desktop-device) {
     padding: 1rem;
 
     form {
