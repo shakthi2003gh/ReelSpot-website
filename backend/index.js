@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+const { users } = require("./routes/users");
 const error = require("./middleware/error");
 
 const options = {
@@ -31,4 +32,5 @@ mongoose
 
 app.use(cors(options));
 app.use(bodyParser.json());
+app.use("/api/users", users);
 app.use(error);
