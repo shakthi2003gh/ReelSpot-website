@@ -28,4 +28,17 @@ function fetchData(endpoint, Model, transform) {
   };
 }
 
-module.exports = { fetchData };
+function searchData(Model, fetch) {
+  return async function (tmdb_id) {
+    const isDataExist = await Model.findOne({ tmdb_id });
+    if (isDataExist) return isDataExist;
+
+    const data = await fetch(tmdb_id);
+    if (!data) return data;
+
+    const cachedData = await cacheData(Model)(data);
+    return cachedData;
+  };
+}
+
+module.exports = { fetchData, searchData };
