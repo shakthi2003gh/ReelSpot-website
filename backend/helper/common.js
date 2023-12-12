@@ -1,5 +1,17 @@
 const { Provider: http } = require("../http/provider");
 
+function getImgUrl(path) {
+  return "https://image.tmdb.org/t/p/original" + path;
+}
+
+function getVideoUrl(videos) {
+  const video = videos.filter(({ site, type }) => {
+    return site === "YouTube" && type === "Trailer";
+  })[0];
+
+  return video?.key ? `https://www.youtube.com/watch?v=${video.key}` : "";
+}
+
 function cacheData(Model) {
   return async function (data) {
     const isDataExist = await Model.findOne({ tmdb_id: data.tmdb_id });
@@ -55,6 +67,8 @@ function getCachedDataId(Model, fetch) {
 }
 
 module.exports = {
+  getImgUrl,
+  getVideoUrl,
   fetchData,
   searchData,
   getCachedDataId,
