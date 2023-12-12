@@ -41,4 +41,21 @@ function searchData(Model, fetch) {
   };
 }
 
-module.exports = { fetchData, searchData };
+function getCachedDataId(Model, fetch) {
+  return async function (tmdb_id) {
+    const isDataExist = await Model.findOne({ tmdb_id });
+    if (isDataExist) return isDataExist._id;
+
+    const data = await fetch(tmdb_id);
+    if (!data) return data;
+
+    const cachedData = await cacheData(Model)(data);
+    return cachedData._id;
+  };
+}
+
+module.exports = {
+  fetchData,
+  searchData,
+  getCachedDataId,
+};
