@@ -1,6 +1,24 @@
 const { Provider: http } = require("../http/provider");
-const { getCachedMovieId } = require("./movie");
-const { getCachedTvShowId } = require("./tvshow");
+const { fetchMovie, getCachedMovieId } = require("./movie");
+const { fetchTvShow, getCachedTvShowId } = require("./tvshow");
+
+function fetchCategoryData(endpoint) {
+  const fetch = endpoint.includes("movie") ? fetchMovie : fetchTvShow;
+
+  return new Promise(async (resolve) => {
+    http(endpoint)
+      .then(async ({ data }) => {
+        const promises = data.results.map(({ id }) => fetch(id));
+        const results = await Promise.all(promises);
+
+        resolve(results.filter((data) => data));
+      })
+      .catch(async () => {
+        const data = await fetchCategoryData(endpoint);
+        resolve(data);
+      });
+  });
+}
 
 function populateCategoriesIds(categories) {
   const categoryData = {};
@@ -27,4 +45,4 @@ function populateCategoriesIds(categories) {
   });
 }
 
-module.exports = { populateCategoriesIds };
+module.exports = { fetchCategoryData, populateCategoriesIds };
