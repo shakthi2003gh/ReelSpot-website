@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+const { index } = require("./routes/index");
 const { users } = require("./routes/users");
 const { genres } = require("./routes/genres");
 const error = require("./middleware/error");
@@ -35,4 +36,5 @@ app.use(cors(options));
 app.use(bodyParser.json());
 app.use("/api/genres", genres);
 app.use("/api/users", users);
+app.use("/api", index);
 app.use(error);
