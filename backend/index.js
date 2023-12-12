@@ -13,6 +13,7 @@ const { home } = require("./routes/home");
 const { users } = require("./routes/users");
 const { genres } = require("./routes/genres");
 const { movies } = require("./routes/movies");
+const { tvShows } = require("./routes/tvShows");
 const error = require("./middleware/error");
 
 const options = {
@@ -36,6 +37,7 @@ mongoose
 
 app.use(cors(options));
 app.use(bodyParser.json());
+app.use("/api/tvshows", tvShows);
 app.use("/api/movies", movies);
 app.use("/api/genres", genres);
 app.use("/api/users", users);
