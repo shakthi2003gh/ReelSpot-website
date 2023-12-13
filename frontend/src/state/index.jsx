@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useMediaQuery from "./../hooks/useMediaQuery";
+import { createUser, authUser, verifyUser } from "../http/user.services";
 
 const THEME_VAR_NAME = import.meta.env.VITE_THEME;
 const InitialTheme = localStorage.getItem(THEME_VAR_NAME) || "light";
@@ -30,6 +31,13 @@ export default function StateProvider({ children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const TOKEN = import.meta.env.VITE_TOKEN;
+    if (!localStorage.getItem(TOKEN)) return;
+
+    verifyUser().then(setUser);
+  }, []);
+
+  useEffect(() => {
     if (isDesktopDevice && !isMenuOpen) setMenuOpen(true);
     if (isTabletDevice && isMenuOpen) setMenuOpen(false);
   }, [isTabletDevice, isDesktopDevice]);
@@ -49,16 +57,18 @@ export default function StateProvider({ children }) {
     setMenuOpen((isOpen) => !isOpen);
   };
 
-  const loginUser = (payload) => {
-    setUser(payload);
-
-    navigate("/");
+  const loginUser = async (payload) => {
+    return authUser(payload).then((data) => {
+      setUser(data);
+      navigate("/");
+    });
   };
 
-  const signupUser = (payload) => {
-    setUser(payload);
-
-    navigate("/");
+  const signupUser = async (payload) => {
+    return createUser(payload).then((data) => {
+      setUser(data);
+      navigate("/");
+    });
   };
 
   const oppositeTheme = theme === "dark" ? "light" : "dark";
