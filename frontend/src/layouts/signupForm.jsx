@@ -1,7 +1,14 @@
-import { useId, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import FormInputs from "../components/formInputs";
+import Joi from "joi";
 import { useController } from "../state";
+import FormInputs from "../components/formInputs";
+
+const schema = {
+  name: Joi.string().required().min(3).max(30),
+  email: Joi.string().email({ tlds: false }).required().min(3).max(30),
+  password: Joi.string().required().min(3).max(50),
+};
 
 export default function SignupForm() {
   const [name, setName] = useState("");
@@ -14,13 +21,28 @@ export default function SignupForm() {
 
   const { signupUser } = useController();
 
+  const [isLoading, setLoading] = useState(false);
+
+  const invalidInputs = useMemo(() => {
+    const { error } = Joi.object(schema).validate({ name, email, password });
+
+    return !!error;
+  }, [name, email, password]);
+
+  const handleSetValue = (name, setValue, setError) => (value) => {
+    const { error } = schema[name].label(name).validate(value);
+    setError(error?.details[0].message);
+
+    setValue(value);
+  };
+
   const inputs = [
     {
       id: useId(),
       type: "text",
       label: "name",
       value: name,
-      setValue: setName,
+      setValue: handleSetValue("name", setName, setNameError),
       placeholder: "username",
       error: nameError,
     },
@@ -29,7 +51,7 @@ export default function SignupForm() {
       type: "email",
       label: "email",
       value: email,
-      setValue: setEmail,
+      setValue: handleSetValue("email", setEmail, setEmailError),
       placeholder: "email@domain.com",
       error: emailError,
     },
@@ -38,7 +60,7 @@ export default function SignupForm() {
       type: "password",
       label: "password",
       value: password,
-      setValue: setPassword,
+      setValue: handleSetValue("password", setPassword, setPasswordError),
       placeholder: "••••••••••",
       error: passwordError,
     },
@@ -47,7 +69,10 @@ export default function SignupForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    signupUser({ name, email, password });
+    setLoading(true);
+    signupUser({ name, email, password }).finally(() => {
+      setLoading(false);
+    });
   };
 
   return (
@@ -57,11 +82,16 @@ export default function SignupForm() {
       <FormInputs inputs={inputs} />
 
       <div className="footer">
+        <button
+          className="btn btn--primary"
+          disabled={invalidInputs || isLoading}
+        >
+          Submit
+        </button>
+
         <p>
           Already have an account? <Link to="/auth?method=signin">log in</Link>
         </p>
-
-        <button className="btn btn--primary">Submit</button>
       </div>
     </form>
   );

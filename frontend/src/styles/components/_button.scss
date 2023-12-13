@@ -15,6 +15,10 @@
   background-color: transparent;
   opacity: 0.9;
 
+  &:disabled {
+    opacity: 0.6 !important;
+  }
+
   &:is(:hover, :focus-visible) {
     color: var(--clr-text-700);
     background: var(--bg-transperent);
