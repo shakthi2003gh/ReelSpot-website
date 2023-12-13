@@ -20,6 +20,7 @@ const error = require("./middleware/error");
 const options = {
   origin: process.env.ORIGIN,
   optionsSuccessStatus: 200,
+  exposedHeaders: process.env.TOKEN,
 };
 
 mongoose
