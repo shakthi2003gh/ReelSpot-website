@@ -17,6 +17,11 @@
 
   &:disabled {
     opacity: 0.6 !important;
+
+    &.btn--danger:is(:hover, :focus-visible) {
+      color: var(--clr-danger-700);
+      background: inherit;
+    }
   }
 
   &:is(:hover, :focus-visible) {
@@ -31,10 +36,6 @@
 
     &:is(:hover, :focus-visible) {
       opacity: 1;
-    }
-
-    &:focus-visible {
-      outline: 1px dashed var(--clr-text-700) !important;
     }
   }
 
@@ -53,6 +54,13 @@
 
     &:is(:hover, :focus-visible) {
       opacity: 1;
+    }
+  }
+
+  &.btn--primary,
+  &.btn--transperent {
+    &:focus-visible {
+      outline: 1px dashed var(--clr-text-700) !important;
     }
   }
 
