@@ -10,7 +10,7 @@ html {
 
 body {
   font-weight: var(--ff-poppins);
-  height: 100dvh;
+  height: 101dvh;
   color: var(--clr-text-400);
   background-color: var(--bg);
   overflow: hidden;
@@ -35,8 +35,8 @@ main:not(.auth) {
   .backdrop {
     position: absolute;
     display: none;
-    background-color: var(--clr-text-400);
-    opacity: 0.2;
+    background-color: var(--clr-dark-400);
+    opacity: 0.4;
   }
 
   @media (width >= $tablet-device) {

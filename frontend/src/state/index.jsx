@@ -2,7 +2,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useMediaQuery from "./../hooks/useMediaQuery";
 import { createUser, authUser, verifyUser } from "../http/user.services";
+import { fetchPages } from "../http/page.services";
 
+const TOKEN = import.meta.env.VITE_TOKEN;
 const THEME_VAR_NAME = import.meta.env.VITE_THEME;
 const InitialTheme = localStorage.getItem(THEME_VAR_NAME) || "light";
 document.body.setAttribute("theme", InitialTheme);
@@ -23,6 +25,9 @@ export function useController() {
 
 export default function StateProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [page, setPage] = useState(null);
+  const [movies, setMovies] = useState({});
+  const [tvshows, setTvshows] = useState({});
   const [theme, setTheme] = useState(InitialTheme);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const isTabletDevice = useMediaQuery(500);
@@ -31,10 +36,14 @@ export default function StateProvider({ children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const TOKEN = import.meta.env.VITE_TOKEN;
-    if (!localStorage.getItem(TOKEN)) return;
+    fetchPages().then(({ page, data }) => {
+      setPage(page);
 
-    verifyUser().then(setUser);
+      setMovies((prev) => ({ ...prev, ...data.movies }));
+      setTvshows((prev) => ({ ...prev, ...data.tvshows }));
+    });
+
+    if (localStorage.getItem(TOKEN)) verifyUser().then(setUser);
   }, []);
 
   useEffect(() => {
@@ -74,6 +83,9 @@ export default function StateProvider({ children }) {
   const oppositeTheme = theme === "dark" ? "light" : "dark";
   const state = {
     user,
+    page,
+    movies,
+    tvshows,
     ui: {
       theme,
       oppositeTheme,
