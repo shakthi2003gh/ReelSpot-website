@@ -1,2 +1,13 @@
 @forward "404";
 @forward "auth";
+
+.page {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: 1rem;
+
+  @media (width >= 750px) {
+    gap: 1.5rem;
+  }
+}

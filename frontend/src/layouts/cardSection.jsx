@@ -17,12 +17,12 @@ export default function CardSection({ title, to, data }) {
             </Link>
           </>
         ) : (
-          <h2>{title}</h2>
+          <h2>{title || "section"}</h2>
         )}
       </div>
       <div className="cards">
-        {data.map(({ id, ...props }) => (
-          <Card key={id} id={id} {...props} />
+        {data.map((id) => (
+          <Card key={id} id={id} />
         ))}
       </div>
     </section>
