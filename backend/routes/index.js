@@ -4,6 +4,10 @@ const { getPageID } = require("../helper/page");
 const { populateCategoriesIds } = require("../helper/categories");
 
 const router = express.Router();
+
+const homeCategories = {
+  trending: "/trending/all/week",
+};
 const movieCategories = {
   discover: "/discover/movie",
   trending: "/trending/movie/week",
@@ -28,24 +32,23 @@ router.get("/update-data", async (_, res) => {
   await Page.deleteMany();
 
   try {
-    const home = {};
+    const home = await populateCategoriesIds(homeCategories);
     const movies = await populateCategoriesIds(movieCategories);
     const tvShows = await populateCategoriesIds(tvShowCategories);
 
     const filterCategory = (category) => {
       const Movies = movies[category]
-        .filter((_, i) => i < 7)
+        .filter((_, i) => i < 5)
         .map((data) => ({ data, mediaType: "Movie" }));
 
       const TvShows = tvShows[category]
-        .filter((_, i) => i < 6)
+        .filter((_, i) => i < 5)
         .map((data) => ({ data, mediaType: "TvShow" }));
 
-      return [...Movies, ...TvShows];
+      return [...Movies, ...TvShows].sort(() => 0.5 - Math.random());
     };
 
     home.discover = filterCategory("discover");
-    home.trending = filterCategory("trending");
     home.movies = movies.trending;
     home.tvShows = tvShows.trending;
 
