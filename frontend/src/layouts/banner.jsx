@@ -10,8 +10,7 @@ export default function Banner({ recommends }) {
 
   const [index, setIndex] = useState(0);
   const isDisplayLarge = useMediaQuery(780);
-  const movies = useFetch((state) => state.movies);
-  const tvshows = useFetch((state) => state.tvshows);
+  const { genres: Genres, movies, tvshows } = useFetch((state) => state);
 
   const id = recommends[index];
   const data = movies[id] || tvshows[id];
@@ -26,7 +25,7 @@ export default function Banner({ recommends }) {
   const bookMarked = useFetch((state) => state?.user.watchlist?.includes(_id));
   const genresString = genres
     .filter((_, i) => i < 4)
-    .map((g) => g.name)
+    .map((id) => Genres[id].name)
     .join(", ");
 
   useEffect(() => {

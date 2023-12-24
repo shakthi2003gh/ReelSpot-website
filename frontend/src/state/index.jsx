@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import useMediaQuery from "./../hooks/useMediaQuery";
 import { createUser, authUser, verifyUser } from "../http/user.services";
 import { fetchPages } from "../http/page.services";
+import { getGenres } from "./../http/genre.services";
+import { fetchMovie } from "../http/movie.services";
+import { fetchTvshow, fetchTvshowSeasons } from "./../http/tvshow.services";
 
 const TOKEN = import.meta.env.VITE_TOKEN;
 const THEME_VAR_NAME = import.meta.env.VITE_THEME;
@@ -26,6 +29,7 @@ export function useController() {
 export default function StateProvider({ children }) {
   const [user, setUser] = useState(null);
   const [page, setPage] = useState(null);
+  const [genres, setGenres] = useState({});
   const [movies, setMovies] = useState({});
   const [tvshows, setTvshows] = useState({});
   const [theme, setTheme] = useState(InitialTheme);
@@ -36,6 +40,8 @@ export default function StateProvider({ children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    getGenres().then(setGenres);
+
     fetchPages().then(({ page, data }) => {
       setPage(page);
 
@@ -69,14 +75,46 @@ export default function StateProvider({ children }) {
   const loginUser = async (payload) => {
     return authUser(payload).then((data) => {
       setUser(data);
-      navigate("/");
+      navigate("/", { replace: true });
     });
   };
 
   const signupUser = async (payload) => {
     return createUser(payload).then((data) => {
       setUser(data);
-      navigate("/");
+      navigate("/", { replace: true });
+    });
+  };
+
+  const checkMovieExist = async (id) => {
+    const movie = movies[id];
+    if (movie) return;
+
+    fetchMovie(id).then((data) => {
+      setMovies((prev) => ({ ...prev, [data._id]: data }));
+
+      if (id !== data._id) navigate("/movies/" + data._id, { replace: true });
+    });
+  };
+
+  const checkTvshowSeasonsExist = (id) => {
+    const tvshow = tvshows[id];
+    if (!!tvshow?.seasons?.length) return;
+
+    fetchTvshowSeasons(id).then((seasons) => {
+      setTvshows((prev) => ({ ...prev, [id]: { ...prev[id], seasons } }));
+    });
+  };
+
+  const checkTvshowExist = async (id) => {
+    const tvshow = tvshows[id];
+    if (tvshow) return checkTvshowSeasonsExist(id);
+
+    fetchTvshow(id).then((data) => {
+      setTvshows((prev) => ({ ...prev, [data._id]: data }));
+      if (id !== data._id) navigate("/tvshows/" + data._id, { replace: true });
+
+      checkTvshowSeasonsExist(id);
     });
   };
 
@@ -84,6 +122,7 @@ export default function StateProvider({ children }) {
   const state = {
     user,
     page,
+    genres,
     movies,
     tvshows,
     ui: {
@@ -103,6 +142,8 @@ export default function StateProvider({ children }) {
     toggleMenuOpen,
     loginUser,
     signupUser,
+    checkMovieExist,
+    checkTvshowExist,
   };
 
   return (

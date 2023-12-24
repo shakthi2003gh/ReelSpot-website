@@ -5,8 +5,7 @@ import { useFetch } from "../state";
 
 export default function Card({ id }) {
   const navigate = useNavigate();
-  const movies = useFetch((state) => state.movies);
-  const tvshows = useFetch((state) => state.tvshows);
+  const { movies, tvshows } = useFetch((state) => state);
 
   const data = movies[id] || tvshows[id];
   const { poster, title, tagline, type } = data;
