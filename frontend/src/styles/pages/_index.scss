@@ -1,5 +1,7 @@
 @forward "404";
 @forward "auth";
+@forward "details";
+@forward "movie";
 
 .page {
   display: flex;

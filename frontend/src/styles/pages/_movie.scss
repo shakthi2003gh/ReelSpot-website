@@ -1,0 +1,15 @@
+.movie-page {
+  @media (min-width: 1250px) {
+    flex-direction: row;
+
+    .sections .info {
+      padding-bottom: 1rem;
+    }
+
+    .casts {
+      height: calc(100% - 1.5rem - 30px);
+      padding-right: 10px;
+      overflow: hidden auto;
+    }
+  }
+}

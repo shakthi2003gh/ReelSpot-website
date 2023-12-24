@@ -51,6 +51,7 @@
   &.btn--transperent {
     color: var(--clr-white-700);
     background: var(--bg-transperent);
+    opacity: 0.7;
 
     &:is(:hover, :focus-visible) {
       opacity: 1;

@@ -1,0 +1,35 @@
+.video-player {
+  position: relative;
+  width: clamp(300px, 100%, 740px);
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  overflow: hidden;
+  isolation: isolate;
+
+  img {
+    width: 100%;
+    height: 98.5%;
+    position: absolute;
+    object-fit: cover;
+    filter: blur(3px);
+    background-color: var(--bg-transperent);
+    z-index: -1;
+  }
+
+  iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+  }
+
+  .video-not-found {
+    display: grid;
+    place-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    width: 100%;
+    height: 100%;
+    text-shadow: 0 0 15px black;
+    color: var(--clr-white-700);
+  }
+}

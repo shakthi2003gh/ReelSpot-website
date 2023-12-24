@@ -6,9 +6,10 @@ import Navigation from "./layouts/navigation";
 import Home from "./pages/home";
 import Movies from "./pages/movies";
 import Televisions from "./pages/televisions";
-import PageNotFound from "./pages/404";
 import Favorites from "./pages/favorites";
 import WatchList from "./pages/watchlist";
+import MoviePage from "./pages/movie";
+import PageNotFound from "./pages/404";
 
 function App() {
   const isMobileDevice = useFetch((state) => state.mediaQuery.isMobile);
@@ -24,6 +25,7 @@ function App() {
           <Route path="/watchlist" element={<WatchList />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/tv" element={<Televisions />} />
+          <Route path="/movies/:id" element={<MoviePage />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<PageNotFound />} />
