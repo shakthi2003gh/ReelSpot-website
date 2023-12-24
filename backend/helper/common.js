@@ -1,15 +1,16 @@
 const { Provider: http } = require("../http/provider");
 
 function getImgUrl(path) {
+  if (!path) return null;
   return "https://image.tmdb.org/t/p/original" + path;
 }
 
-function getVideoUrl(videos) {
+function getVideo(videos) {
   const video = videos.filter(({ site, type }) => {
     return site === "YouTube" && type === "Trailer";
   })[0];
 
-  return video?.key ? `https://www.youtube.com/watch?v=${video.key}` : "";
+  return video?.key || null;
 }
 
 function cacheData(Model) {
@@ -68,7 +69,7 @@ function getCachedDataId(Model, fetch) {
 
 module.exports = {
   getImgUrl,
-  getVideoUrl,
+  getVideo,
   fetchData,
   searchData,
   getCachedDataId,
