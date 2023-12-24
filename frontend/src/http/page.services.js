@@ -30,7 +30,7 @@ export function fetchPages() {
     const tvData = await getData("/tvshows").then(extract);
 
     resolve({
-      page: { home: homeData, movies: moviesData, tv: tvData },
+      page: { home: homeData, movies: moviesData, tvshows: tvData },
       data: { movies, tvshows },
     });
   });

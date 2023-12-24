@@ -19,7 +19,7 @@ export default function Banner({ recommends }) {
   const { runtime, genres, release_date } = data;
   const { total_episodes, total_seasons } = data;
 
-  const to = `/${type === "movie" ? "movies" : "tv"}/${_id || tmdb_id}`;
+  const to = `/${type === "movie" ? "movies" : "tvshows"}/${_id || tmdb_id}`;
   const duration = `${Math.floor(runtime / 60)}h ${runtime % 60}m`;
   const year = new Date(release_date).getFullYear();
   const bookMarked = useFetch((state) => state?.user.watchlist?.includes(_id));

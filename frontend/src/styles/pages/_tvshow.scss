@@ -1,0 +1,24 @@
+.tvshow-page {
+  @media (min-width: 1250px) {
+    flex-direction: row;
+
+    .cast-section {
+      padding-bottom: 1rem;
+    }
+
+    .sticky-section {
+      width: 300px;
+
+      .seasons {
+        height: 100%;
+        padding-right: 10px;
+        margin-top: 0;
+        overflow: hidden auto;
+
+        p {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

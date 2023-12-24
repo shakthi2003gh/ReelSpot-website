@@ -10,7 +10,7 @@ export default function Card({ id }) {
   const data = movies[id] || tvshows[id];
   const { poster, title, tagline, type } = data;
 
-  const to = `/${type === "movie" ? "movies" : "tv"}/${id}`;
+  const to = `/${type === "movie" ? "movies" : "tvshows"}/${id}`;
   const favorite = useFetch((state) => state?.user.favorites?.includes(id));
 
   const handleKeydown = (e) => {

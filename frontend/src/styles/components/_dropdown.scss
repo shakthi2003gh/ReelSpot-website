@@ -1,0 +1,24 @@
+.dropdown {
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: var(--ff-inter);
+  padding: 8px 10px;
+  margin-top: 1px;
+  border: none;
+  border-radius: 5px;
+  color: var(--clr-text-700);
+  background-color: var(--bg-transperent);
+  opacity: 0.8;
+
+  &:is(:hover, :focus-visible) {
+    cursor: pointer;
+    outline: none;
+    opacity: 1;
+  }
+
+  option {
+    font-weight: 400;
+    font-family: var(--ff-poppins);
+    background-color: var(--bg);
+  }
+}

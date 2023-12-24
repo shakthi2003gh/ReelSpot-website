@@ -25,10 +25,10 @@ export default function NavLinks() {
     },
     {
       id: useId(),
-      label: "tv",
+      label: "tvshows",
       Icon: PiTelevision,
       IconFill: PiTelevisionFill,
-      to: "/tv",
+      to: "/tvshows",
     },
     {
       id: useId(),

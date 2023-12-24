@@ -5,10 +5,11 @@ import SideBar from "./layouts/sideBar";
 import Navigation from "./layouts/navigation";
 import Home from "./pages/home";
 import Movies from "./pages/movies";
-import Televisions from "./pages/televisions";
+import Tvshows from "./pages/tvshows";
 import Favorites from "./pages/favorites";
 import WatchList from "./pages/watchlist";
 import MoviePage from "./pages/movie";
+import TvshowPage from "./pages/tvshow";
 import PageNotFound from "./pages/404";
 
 function App() {
@@ -24,7 +25,8 @@ function App() {
         <Routes>
           <Route path="/watchlist" element={<WatchList />} />
           <Route path="/favorites" element={<Favorites />} />
-          <Route path="/tv" element={<Televisions />} />
+          <Route path="/tvshows/:id" element={<TvshowPage />} />
+          <Route path="/tvshows" element={<Tvshows />} />
           <Route path="/movies/:id" element={<MoviePage />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/" element={<Home />} />

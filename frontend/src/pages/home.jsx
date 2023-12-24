@@ -23,8 +23,8 @@ export default function Home() {
     },
     {
       id: useId(),
-      title: "tv",
-      to: "/tv",
+      title: "tvshows",
+      to: "/tvshows",
       data: home?.tvShows,
     },
   ];
