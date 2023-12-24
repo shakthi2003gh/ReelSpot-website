@@ -12,14 +12,8 @@ router.get("/", async (_, res) => {
     .populate({
       path: "movies",
       populate: [
-        {
-          path: "discover",
-          limit: 13,
-        },
-        {
-          path: "trending popular top_rated upcoming",
-          limit: 10,
-        },
+        { path: "trending", limit: 13 },
+        { path: "discover popular top_rated upcoming", limit: 10 },
       ],
     })
     .select("movies");

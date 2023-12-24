@@ -14,10 +14,21 @@ const schema = new mongoose.Schema({
       ref: "Genre",
     },
   ],
-  languages: String,
+  language: String,
   release_date: String,
   runtime: Number,
   status: String,
+  type: { type: String, default: "movie" },
+  casts: [
+    {
+      character: String,
+      actor: {
+        tmdb_id: { type: Number, required: true },
+        image: String,
+        name: String,
+      },
+    },
+  ],
 });
 
 exports.Movie = mongoose.model("Movie", schema);
