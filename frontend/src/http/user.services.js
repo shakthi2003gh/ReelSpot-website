@@ -1,13 +1,7 @@
 import { Provider as http } from "./provider";
+import { deleteData, getData } from "./common.services";
 
 const TOKEN = import.meta.env.VITE_TOKEN;
-
-const getOptions = () => ({
-  headers: {
-    accept: "application/json",
-    [TOKEN]: localStorage.getItem(TOKEN),
-  },
-});
 
 function postTemplate(path) {
   return function (payload) {
@@ -31,25 +25,9 @@ export const createUser = postTemplate("/users/new");
 export const authUser = postTemplate("/users/auth");
 
 export function verifyUser() {
-  return new Promise(async (resolve, reject) => {
-    http
-      .get("/users/me", getOptions())
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((e) => {
-        reject(e.response.data);
-      });
-  });
+  return getData("/users/me");
 }
 
 export function deleteUser() {
-  return new Promise(async (resolve, reject) => {
-    http
-      .delete("/users/me", getOptions())
-      .then(resolve)
-      .catch((e) => {
-        reject(e.response.data);
-      });
-  });
+  return deleteData("/users/me");
 }

@@ -1,4 +1,4 @@
-import { Provider as http } from "./provider";
+import { getData } from "./common.services";
 
 function extractor(movies, tvshows) {
   return function (data) {
@@ -19,28 +19,15 @@ function extractor(movies, tvshows) {
   };
 }
 
-function fetchPage(path) {
-  return new Promise(async (resolve) => {
-    http
-      .get(path)
-      .then(({ data }) => {
-        resolve(data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  });
-}
-
 export function fetchPages() {
   return new Promise(async (resolve) => {
     const movies = {};
     const tvshows = {};
     const extract = extractor(movies, tvshows);
 
-    const homeData = await fetchPage("/home").then(extract);
-    const moviesData = await fetchPage("/movies").then(extract);
-    const tvData = await fetchPage("/tvshows").then(extract);
+    const homeData = await getData("/home").then(extract);
+    const moviesData = await getData("/movies").then(extract);
+    const tvData = await getData("/tvshows").then(extract);
 
     resolve({
       page: { home: homeData, movies: moviesData, tv: tvData },
