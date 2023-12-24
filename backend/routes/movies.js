@@ -31,4 +31,14 @@ router.get("/:movie_id", validateObjectId, async (req, res) => {
   res.send(movie);
 });
 
+router.get("/:movie_id/casts", validateObjectId, async (req, res) => {
+  const id = req.params.movie_id;
+  const tmdb_id = req.tmdb_ids?.movie_id;
+
+  const movie = id ? await Movie.findById(id) : await searchMovie(tmdb_id);
+  if (!movie) return res.status(404).send("Movie not found");
+
+  res.send(movie.casts);
+});
+
 exports.movies = router;
