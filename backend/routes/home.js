@@ -15,16 +15,7 @@ router.get("/", async (_, res) => {
   const page = await Page.findById(await getPageID())
     .populate({
       path: "home",
-      populate: [
-        {
-          path: "discover",
-          limit: 13,
-        },
-        {
-          path: "trending movies tvShows",
-          limit: 10,
-        },
-      ],
+      populate: { path: "movies tvShows", limit: 10 },
     })
     .select("home");
 
@@ -35,9 +26,6 @@ router.get("/", async (_, res) => {
 
   const discover = await Promise.all(discoverPromises);
   const trending = await Promise.all(trendingPromises);
-
-  discover.sort(() => 0.5 - Math.random());
-  trending.sort(() => 0.5 - Math.random());
 
   res.send({ discover, trending, movies, tvShows });
 });
