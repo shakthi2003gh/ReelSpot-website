@@ -1,15 +1,15 @@
 import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { IoArrowBack } from "react-icons/io5";
+import { useParams } from "react-router-dom";
 import { useController, useFetch } from "../state/index";
 import useMediaQuery from "../hooks/useMediaQuery";
 import Casts from "../layouts/casts";
 import Seasons from "../layouts/seasons";
 import VideoPlayer from "../components/videoContainer";
+import Pagination from "../components/Pagination";
 
 export default function TvshowPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
+
   const isLargeDevice = useMediaQuery(1250);
 
   const { tvshows, genres: Genres } = useFetch((state) => state);
@@ -27,21 +27,14 @@ export default function TvshowPage() {
   const { total_seasons, total_episodes, status, casts } = tvshow;
 
   const genresString = genres
-    .filter((_, i) => i < 4)
+    ?.filter((_, i) => i < 4)
     .map((id) => Genres[id]?.name)
     .join(", ");
-
-  const handleGoback = () => navigate(-1);
 
   return (
     <div className="tvshow-page">
       <div className="main">
-        <div className="header">
-          <button className="btn btn--transperent" onClick={handleGoback}>
-            <IoArrowBack />
-            <span>back</span>
-          </button>
-        </div>
+        <Pagination />
 
         <VideoPlayer videoKey={video} cover={banner} />
 

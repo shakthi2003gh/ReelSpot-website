@@ -5,6 +5,14 @@
   width: 100%;
   margin-top: 1rem;
 
+  [theme="light"] & {
+    --bg-transperent: rgba(241, 241, 241, 0.9);
+
+    .btn--transperent {
+      color: var(--clr-text-700);
+    }
+  }
+
   h2 {
     width: 0;
     height: 0;

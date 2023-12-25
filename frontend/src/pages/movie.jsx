@@ -1,13 +1,12 @@
 import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { IoArrowBack } from "react-icons/io5";
+import { useParams } from "react-router-dom";
 import { useController, useFetch } from "../state/index";
-import VideoPlayer from "../components/videoContainer";
 import Casts from "../layouts/casts";
+import VideoPlayer from "../components/videoContainer";
+import Pagination from "../components/Pagination";
 
 export default function MoviePage() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { movies, genres: Genres } = useFetch((state) => state);
   const { checkMovieExist } = useController();
 
@@ -27,21 +26,14 @@ export default function MoviePage() {
   const opions = { day: "2-digit", month: "2-digit", year: "numeric" };
   const release = new Date(release_date).toLocaleDateString("en-IN", opions);
   const genresString = genres
-    .filter((_, i) => i < 4)
+    ?.filter((_, i) => i < 4)
     .map((id) => Genres[id]?.name)
     .join(", ");
-
-  const handleGoback = () => navigate(-1);
 
   return (
     <div className="movie-page">
       <div className="main">
-        <div className="header">
-          <button className="btn btn--transperent" onClick={handleGoback}>
-            <IoArrowBack />
-            <span>back</span>
-          </button>
-        </div>
+        <Pagination />
 
         <VideoPlayer videoKey={video} cover={banner} />
 
