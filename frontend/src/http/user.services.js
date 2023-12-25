@@ -1,7 +1,9 @@
+import { toast } from "react-toastify";
 import { Provider as http } from "./provider";
 import { deleteData, getData } from "./common.services";
 
 const TOKEN = import.meta.env.VITE_TOKEN;
+const theme = () => localStorage.getItem(import.meta.env.VITE_THEME);
 
 function postTemplate(path) {
   return function (payload) {
@@ -15,7 +17,10 @@ function postTemplate(path) {
           resolve(res.data);
         })
         .catch((e) => {
-          reject(e.response.data);
+          const message = e?.response?.data ?? e.message;
+
+          toast.error(message, { theme: theme() });
+          reject(message);
         });
     });
   };

@@ -1,7 +1,9 @@
+import { toast } from "react-toastify";
 import { Provider as http } from "./provider";
 
 const TOKEN = import.meta.env.VITE_TOKEN;
 
+const theme = () => localStorage.getItem(import.meta.env.VITE_THEME);
 const getOptions = () => ({
   headers: {
     accept: "application/json",
@@ -17,7 +19,10 @@ export function getData(endpoint, options = getOptions()) {
         resolve(res.data);
       })
       .catch((e) => {
-        reject(e.response.data);
+        const message = e?.response?.data ?? e.message;
+
+        toast.error(message, { theme: theme() });
+        reject(message);
       });
   });
 }
@@ -30,7 +35,10 @@ export function deleteData(endpoint, options = getOptions()) {
         resolve(res.data);
       })
       .catch((e) => {
-        reject(e.response.data);
+        const message = e?.response?.data ?? e.message;
+
+        toast.error(message, { theme: theme() });
+        reject(message);
       });
   });
 }
