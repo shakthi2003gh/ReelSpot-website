@@ -8,25 +8,25 @@ export default function Tvshows() {
     {
       id: useId(),
       title: "discover",
-      to: "/movies/discover",
+      to: "/tvshows/category/discover",
       data: tvshows?.discover,
     },
     {
       id: useId(),
       title: "trending",
-      to: "/movies/trending",
+      to: "/tvshows/category/trending",
       data: tvshows?.trending.slice(3),
     },
     {
       id: useId(),
       title: "popular",
-      to: "/movies/popular",
+      to: "/tvshows/category/popular",
       data: tvshows?.popular,
     },
     {
       id: useId(),
       title: "top rated",
-      to: "/movies/top_rated",
+      to: "/tvshows/category/top_rated",
       data: tvshows?.top_rated,
     },
   ];

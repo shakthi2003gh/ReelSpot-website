@@ -4,8 +4,9 @@ import useMediaQuery from "./../hooks/useMediaQuery";
 import { createUser, authUser, verifyUser } from "../http/user.services";
 import { fetchPages } from "../http/page.services";
 import { getGenres } from "./../http/genre.services";
-import { fetchMovie } from "../http/movie.services";
+import { fetchMovie, fetchMoviesByCategory } from "../http/movie.services";
 import { fetchTvshow, fetchTvshowSeasons } from "./../http/tvshow.services";
+import { fetchTvshowsByCategory } from "./../http/tvshow.services";
 
 const TOKEN = import.meta.env.VITE_TOKEN;
 const THEME_VAR_NAME = import.meta.env.VITE_THEME;
@@ -32,6 +33,7 @@ export default function StateProvider({ children }) {
   const [genres, setGenres] = useState({});
   const [movies, setMovies] = useState({});
   const [tvshows, setTvshows] = useState({});
+  const [categories, setCategories] = useState({});
   const [theme, setTheme] = useState(InitialTheme);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const isTabletDevice = useMediaQuery(500);
@@ -118,10 +120,53 @@ export default function StateProvider({ children }) {
     });
   };
 
+  const checkCategory = async (media, category, page = 1) => {
+    return new Promise((resolve) => {
+      const setData = media === "movies" ? setMovies : setTvshows;
+      const fetch =
+        media === "movies" ? fetchMoviesByCategory : fetchTvshowsByCategory;
+
+      fetch(category, page)
+        .then((data) => {
+          const obj = {};
+          data.forEach((data) => {
+            const { _id, tmdb_id } = data;
+            obj[_id || tmdb_id] = data;
+          });
+
+          setData((prev) => ({ ...prev, ...obj }));
+          setCategories((prev) => {
+            const type = media.replace("s", "");
+            const ids = Object.keys(obj).map((id) => ({ id, mediaType: type }));
+            const data = (prev?.[media]?.[category] || []).concat(ids);
+
+            const filterUniqueData = (data) =>
+              data.filter((value, index, self) => {
+                const i = self.findIndex((v) => {
+                  return v.id === value.id && v.mediaType === value.mediaType;
+                });
+
+                return i === index;
+              });
+
+            return {
+              ...prev,
+              [media]: {
+                ...prev?.[media],
+                [category]: filterUniqueData(data),
+              },
+            };
+          });
+        })
+        .finally(resolve);
+    });
+  };
+
   const oppositeTheme = theme === "dark" ? "light" : "dark";
   const state = {
     user,
     page,
+    categories,
     genres,
     movies,
     tvshows,
@@ -144,6 +189,7 @@ export default function StateProvider({ children }) {
     signupUser,
     checkMovieExist,
     checkTvshowExist,
+    checkCategory,
   };
 
   return (

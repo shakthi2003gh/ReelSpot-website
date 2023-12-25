@@ -10,6 +10,7 @@ import Favorites from "./pages/favorites";
 import WatchList from "./pages/watchlist";
 import MoviePage from "./pages/movie";
 import TvshowPage from "./pages/tvshow";
+import Category from "./pages/category";
 import PageNotFound from "./pages/404";
 
 function App() {
@@ -25,8 +26,10 @@ function App() {
         <Routes>
           <Route path="/watchlist" element={<WatchList />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/tvshows/category/:category" element={<Category />} />
           <Route path="/tvshows/:id" element={<TvshowPage />} />
           <Route path="/tvshows" element={<Tvshows />} />
+          <Route path="/movies/category/:category" element={<Category />} />
           <Route path="/movies/:id" element={<MoviePage />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/" element={<Home />} />

@@ -8,31 +8,31 @@ export default function Movies() {
     {
       id: useId(),
       title: "discover",
-      to: "/movies/discover",
+      to: "/movies/category/discover",
       data: movies?.discover,
     },
     {
       id: useId(),
       title: "trending",
-      to: "/movies/trending",
+      to: "/movies/category/trending",
       data: movies?.trending.slice(3),
     },
     {
       id: useId(),
       title: "popular",
-      to: "/movies/popular",
+      to: "/movies/category/popular",
       data: movies?.popular,
     },
     {
       id: useId(),
       title: "top rated",
-      to: "/movies/top_rated",
+      to: "/movies/category/top_rated",
       data: movies?.top_rated,
     },
     {
       id: useId(),
       title: "upcoming",
-      to: "/movies/upcoming",
+      to: "/movies/category/upcoming",
       data: movies?.upcoming,
     },
   ];
