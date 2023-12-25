@@ -5,7 +5,7 @@ import noimage from "../assets/no-image.png";
 export default function Seasons({ data }) {
   const [currentSeason, setCurrentSeason] = useState(0);
 
-  if (!data.length)
+  if (!data?.length)
     return (
       <div className="seasons">
         <DropDown />

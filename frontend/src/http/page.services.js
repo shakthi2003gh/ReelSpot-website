@@ -6,12 +6,12 @@ function extractor(movies, tvshows) {
 
     Object.keys(data).forEach((category) => {
       obj[category] = data[category].map((data) => {
-        const { _id, tmdb_id } = data;
+        const { _id, tmdb_id,type } = data;
 
-        if (data.type === "movie") movies[_id || tmdb_id] = data;
-        if (data.type === "tvshow") tvshows[_id || tmdb_id] = data;
+        if (type === "movie") movies[_id || tmdb_id] = data;
+        if (type === "tvshow") tvshows[_id || tmdb_id] = data;
 
-        return _id || tmdb_id;
+        return {id: _id || tmdb_id, mediaType: type};
       });
     });
 

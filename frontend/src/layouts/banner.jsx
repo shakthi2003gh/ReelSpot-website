@@ -10,16 +10,26 @@ export default function Banner({ recommends }) {
 
   const [index, setIndex] = useState(0);
   const isDisplayLarge = useMediaQuery(780);
-  const { genres: Genres, movies, tvshows } = useFetch((state) => state);
+  const { genres: Genres } = useFetch((state) => state);
 
-  const id = recommends[index];
-  const data = movies[id] || tvshows[id];
+  const { id, mediaType } = recommends[index];
+  const type = mediaType === "movie" ? "movies" : "tvshows";
+  const data = useFetch((state) => state?.[type]?.[id]);
 
-  const { _id, tmdb_id, title, banner, type } = data;
+  const previews = recommends.map(({ id, mediaType }) => {
+    const type = mediaType === "movie" ? "movies" : "tvshows";
+    const data = useFetch((state) => state?.[type]?.[id]);
+
+    return { id, banner: data.banner };
+  });
+
+  if (!data) return;
+
+  const { _id, tmdb_id, title, banner } = data;
   const { runtime, genres, release_date } = data;
   const { total_episodes, total_seasons } = data;
 
-  const to = `/${type === "movie" ? "movies" : "tvshows"}/${_id || tmdb_id}`;
+  const to = `/${type}/${_id || tmdb_id}`;
   const duration = `${Math.floor(runtime / 60)}h ${runtime % 60}m`;
   const year = new Date(release_date).getFullYear();
   const bookMarked = useFetch((state) => state?.user.watchlist?.includes(_id));
@@ -68,7 +78,7 @@ export default function Banner({ recommends }) {
       <div className="content">
         <div className="title">{title}</div>
 
-        {type === "movie" ? (
+        {mediaType === "movie" ? (
           <p>
             {year} • {genresString} • {duration}
           </p>
@@ -93,10 +103,10 @@ export default function Banner({ recommends }) {
 
       {isDisplayLarge && (
         <div className="previews">
-          {recommends.map((id, i) => (
+          {previews.map(({ id, banner }, i) => (
             <img
               key={id}
-              src={(movies[id] || tvshows[id]).banner}
+              src={banner}
               alt=""
               className={index === i ? "previewing" : ""}
               onClick={handlePreview(i)}

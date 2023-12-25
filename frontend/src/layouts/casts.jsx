@@ -11,7 +11,7 @@ export default function Casts({ data }) {
             const { image, name } = actor;
 
             return (
-              <div key={_id} className="cast">
+              <div key={_id || actor.tmdb_id} className="cast">
                 <div className="image">
                   <img src={image || placeholderImage} alt="" loading="lazy" />
                 </div>

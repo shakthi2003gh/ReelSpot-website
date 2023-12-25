@@ -21,8 +21,8 @@ export default function CardSection({ title, to, data }) {
         )}
       </div>
       <div className="cards">
-        {data.map((id) => (
-          <Card key={id} id={id} />
+        {data.map(({ id, mediaType }) => (
+          <Card key={id} id={id} mediaType={mediaType} />
         ))}
       </div>
     </section>

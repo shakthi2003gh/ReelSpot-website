@@ -3,19 +3,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useFetch } from "../state";
 
-export default function Card({ id }) {
+export default function Card({ id, mediaType }) {
   const navigate = useNavigate();
-  const { movies, tvshows } = useFetch((state) => state);
+  const type = mediaType === "movie" ? "movies" : "tvshows";
 
-  const data = movies[id] || tvshows[id];
-  const { poster, title, tagline, type } = data;
-
-  const to = `/${type === "movie" ? "movies" : "tvshows"}/${id}`;
-  const favorite = useFetch((state) => state?.user.favorites?.includes(id));
+  const data = useFetch((state) => state?.[type]?.[id]);
+  const favorite = useFetch((state) => state.user?.favorites?.includes(id));
 
   const handleKeydown = (e) => {
     if (e.keyCode === 13) navigate(to);
   };
+
+  if (!data) return <div>loading...</div>;
+
+  const to = `/${type}/${id}`;
+  const { poster, title, tagline } = data;
 
   return (
     <div className="card" title={title} tabIndex={0} onKeyDown={handleKeydown}>
