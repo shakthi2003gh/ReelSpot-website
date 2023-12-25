@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { useFetch } from "./state";
+import { useController, useFetch } from "./state";
 import Header from "./layouts/header";
 import SideBar from "./layouts/sideBar";
 import Navigation from "./layouts/navigation";
@@ -15,6 +15,7 @@ import PageNotFound from "./pages/404";
 
 function App() {
   const isMobileDevice = useFetch((state) => state.mediaQuery.isMobile);
+  const { toggleMenuOpen } = useController();
 
   return (
     <>
@@ -36,7 +37,7 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
 
-        <div className="backdrop"></div>
+        <div className="backdrop" onClick={toggleMenuOpen}></div>
 
         {isMobileDevice && <Navigation />}
       </main>
