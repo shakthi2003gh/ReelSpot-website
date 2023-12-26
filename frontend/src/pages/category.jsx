@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useController, useFetch } from "../state";
-import Card from "../components/card";
-import PageNotFound from "./404";
 import Pagination from "../components/Pagination";
+import RenderCards from "../components/renderCards";
+import PageNotFound from "./404";
 
 const categories = ["discover", "trending", "popular", "top_rated", "upcoming"];
 
@@ -51,11 +51,7 @@ export default function Category() {
 
       <h1>{category.replace("_", " ")}</h1>
 
-      <div className="cards">
-        {data?.map(({ id, mediaType }) => (
-          <Card key={id} id={id} mediaType={mediaType} />
-        ))}
-      </div>
+      <RenderCards data={data} />
 
       {isFetching && <div className="loading">Loading...</div>}
     </div>

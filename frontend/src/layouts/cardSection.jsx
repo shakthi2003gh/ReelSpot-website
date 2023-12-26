@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
-import Card from "./../components/card";
+import RenderCards from "../components/renderCards";
 
 export default function CardSection({ title, to, data }) {
   return (
@@ -20,11 +20,8 @@ export default function CardSection({ title, to, data }) {
           <h2>{title || "section"}</h2>
         )}
       </div>
-      <div className="cards">
-        {data.map(({ id, mediaType }) => (
-          <Card key={id} id={id} mediaType={mediaType} />
-        ))}
-      </div>
+
+      <RenderCards data={data} />
     </section>
   );
 }
