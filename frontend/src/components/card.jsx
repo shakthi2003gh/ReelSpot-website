@@ -1,14 +1,17 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
-import { useFetch } from "../state";
+import { useController, useFetch } from "../state";
 
 export default function Card({ id, mediaType }) {
   const navigate = useNavigate();
   const type = mediaType === "movie" ? "movies" : "tvshows";
 
+  const { addInFavorites, removeFromFavorites } = useController();
   const data = useFetch((state) => state?.[type]?.[id]);
-  const favorite = useFetch((state) => state.user?.favorites?.includes(id));
+  const favorites = useFetch((state) => state.user?.favorites);
+  const favorite = favorites?.some((data) => {
+    return data.id === id && data.mediaType === mediaType;
+  });
 
   const handleKeydown = (e) => {
     if (e.keyCode === 13) navigate(to);
@@ -18,6 +21,11 @@ export default function Card({ id, mediaType }) {
 
   const to = `/${type}/${id}`;
   const { poster, title, tagline } = data;
+
+  const toggleFavorite = () => {
+    if (favorite) removeFromFavorites(id, mediaType);
+    else addInFavorites(id, mediaType);
+  };
 
   return (
     <div className="card" title={title} tabIndex={0} onKeyDown={handleKeydown}>
@@ -31,7 +39,11 @@ export default function Card({ id, mediaType }) {
             {title || "No title"}
           </Link>
 
-          <button title="Add to favorite" tabIndex={-1}>
+          <button
+            title="Add to favorite"
+            tabIndex={-1}
+            onClick={toggleFavorite}
+          >
             {favorite ? <IoMdHeart /> : <IoMdHeartEmpty />}
           </button>
         </div>

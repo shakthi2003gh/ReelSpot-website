@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useController, useFetch } from "../state/index";
 import useMediaQuery from "../hooks/useMediaQuery";
+import InteractActions from "../layouts/interactActions";
 import Casts from "../layouts/casts";
 import Seasons from "../layouts/seasons";
 import VideoPlayer from "../components/videoContainer";
@@ -49,6 +50,8 @@ export default function TvshowPage() {
             </h1>
 
             <p>{tagline || "No tagline"}</p>
+
+            <InteractActions id={id} mediaType="tvshow" />
           </div>
         </div>
 

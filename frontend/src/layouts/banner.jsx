@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaPlay } from "react-icons/fa6";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
-import { useFetch } from "../state";
+import { useController, useFetch } from "../state";
 import useMediaQuery from "./../hooks/useMediaQuery";
 
 export default function Banner({ recommends }) {
@@ -14,7 +14,13 @@ export default function Banner({ recommends }) {
 
   const { id, mediaType } = recommends[index];
   const type = mediaType === "movie" ? "movies" : "tvshows";
+
+  const { addInWatchlist, removeFromWatchlist } = useController();
   const data = useFetch((state) => state?.[type]?.[id]);
+  const watchlists = useFetch((state) => state.user?.watchlist);
+  const watchlist = watchlists?.some((data) => {
+    return data.id === id && data.mediaType === mediaType;
+  });
 
   const previews = recommends.map(({ id, mediaType }) => {
     const type = mediaType === "movie" ? "movies" : "tvshows";
@@ -32,7 +38,6 @@ export default function Banner({ recommends }) {
   const to = `/${type}/${_id || tmdb_id}`;
   const duration = `${Math.floor(runtime / 60)}h ${runtime % 60}m`;
   const year = new Date(release_date).getFullYear();
-  const bookMarked = useFetch((state) => state?.user.watchlist?.includes(_id));
   const genresString = genres
     .filter((_, i) => i < 4)
     .map((id) => Genres[id].name)
@@ -60,6 +65,11 @@ export default function Banner({ recommends }) {
   const handlePreview = (i) => () => {
     if (index === i) return;
     setIndex(i);
+  };
+
+  const toggleWatchlist = () => {
+    if (watchlist) removeFromWatchlist(id, mediaType);
+    else addInWatchlist(id, mediaType);
   };
 
   if (!banner)
@@ -94,9 +104,9 @@ export default function Banner({ recommends }) {
             <span>watch</span>
           </Link>
 
-          <button className="btn btn--transperent">
-            {bookMarked ? <IoBookmark /> : <IoBookmarkOutline />}
-            <span>{bookMarked ? "added" : "watchlist"}</span>
+          <button className="btn btn--transperent" onClick={toggleWatchlist}>
+            {watchlist ? <IoBookmark /> : <IoBookmarkOutline />}
+            <span>{watchlist ? "added" : "watchlist"}</span>
           </button>
         </div>
       </div>

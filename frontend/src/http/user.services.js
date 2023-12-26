@@ -1,27 +1,16 @@
-import { toast } from "react-toastify";
-import { Provider as http } from "./provider";
-import { deleteData, getData } from "./common.services";
+import { getData, postData, deleteData } from "./common.services";
 
 const TOKEN = import.meta.env.VITE_TOKEN;
-const theme = () => localStorage.getItem(import.meta.env.VITE_THEME);
 
 function postTemplate(path) {
   return function (payload) {
-    return new Promise(async (resolve, reject) => {
-      http
-        .post(path, payload)
-        .then((res) => {
-          const token = res.headers.get(TOKEN);
-          localStorage.setItem(TOKEN, token);
+    return new Promise(async (resolve) => {
+      postData(path, payload).then((res) => {
+        const token = res.headers.get(TOKEN);
+        localStorage.setItem(TOKEN, token);
 
-          resolve(res.data);
-        })
-        .catch((e) => {
-          const message = e?.response?.data ?? e.message;
-
-          toast.error(message, { theme: theme() });
-          reject(message);
-        });
+        resolve(res.data);
+      });
     });
   };
 }

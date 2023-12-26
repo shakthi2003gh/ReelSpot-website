@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useController, useFetch } from "../state/index";
+import InteractActions from "../layouts/interactActions";
 import Casts from "../layouts/casts";
 import VideoPlayer from "../components/videoContainer";
 import Pagination from "../components/Pagination";
@@ -48,6 +49,8 @@ export default function MoviePage() {
             </h1>
 
             <p>{tagline || "No tagline"}</p>
+
+            <InteractActions id={id} mediaType="movie" />
           </div>
         </div>
 

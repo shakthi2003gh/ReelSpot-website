@@ -70,8 +70,45 @@
         margin-block: 10px 0;
       }
 
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+
+        .btn--danger {
+          color: var(--clr-white-700);
+          background-color: var(--clr-danger-700);
+
+          &:is(:hover, :focus-visible) {
+            color: var(--clr-white-700);
+            background: var(--clr-danger-700);
+            opacity: 1;
+          }
+
+          &:focus-visible {
+            outline: 1px dashed var(--clr-text-700) !important;
+          }
+        }
+
+        svg {
+          font-size: 1.2rem;
+        }
+      }
+
       @media (min-width: $tablet-device) {
         font-size: 1.4rem;
+
+        .actions {
+          gap: 1.5rem;
+          margin-top: 1.5rem;
+        }
+      }
+
+      @media (min-width: $desktop-device) {
+        .actions {
+          margin-top: 2rem;
+        }
       }
     }
 

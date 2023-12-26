@@ -4,8 +4,12 @@ import useMediaQuery from "./../hooks/useMediaQuery";
 import { createUser, authUser, verifyUser } from "../http/user.services";
 import { fetchPages } from "../http/page.services";
 import { getGenres } from "./../http/genre.services";
-import { fetchMovie, fetchMoviesByCategory } from "../http/movie.services";
-import { fetchTvshow, fetchTvshowSeasons } from "./../http/tvshow.services";
+import { favoriteMovie, fetchMovie } from "../http/movie.services";
+import { fetchMoviesByCategory, unfavoriteMovie } from "../http/movie.services";
+import { watchlistMovie, unwatchlistMovie } from "../http/movie.services";
+import { favoriteTvshow, fetchTvshowSeasons } from "./../http/tvshow.services";
+import { fetchTvshow, unFavoriteTvshow } from "./../http/tvshow.services";
+import { watchlistTvshow, unWatchlistTvshow } from "./../http/tvshow.services";
 import { fetchTvshowsByCategory } from "./../http/tvshow.services";
 
 const TOKEN = import.meta.env.VITE_TOKEN;
@@ -162,6 +166,70 @@ export default function StateProvider({ children }) {
     });
   };
 
+  const addInFavorites = async (id, mediaType) => {
+    const data = { id, mediaType };
+    const fetch = mediaType === "movie" ? favoriteMovie : favoriteTvshow;
+
+    setUser((prev) => ({ ...prev, favorites: [...prev.favorites, data] }));
+
+    fetch(id).catch(() => {
+      setUser((prev) => ({
+        ...prev,
+        favorites: prev.favorites.filter((data) => {
+          return !(data.id === id && data.mediaType === mediaType);
+        }),
+      }));
+    });
+  };
+
+  const removeFromFavorites = async (id, mediaType) => {
+    const data = { id, mediaType };
+    const fetch = mediaType === "movie" ? unfavoriteMovie : unFavoriteTvshow;
+
+    setUser((prev) => ({
+      ...prev,
+      favorites: prev.favorites.filter((data) => {
+        return !(data.id === id && data.mediaType === mediaType);
+      }),
+    }));
+
+    fetch(id).catch(() => {
+      setUser((prev) => ({ ...prev, favorites: [...prev.favorites, data] }));
+    });
+  };
+
+  const addInWatchlist = async (id, mediaType) => {
+    const data = { id, mediaType };
+    const fetch = mediaType === "movie" ? watchlistMovie : watchlistTvshow;
+
+    setUser((prev) => ({ ...prev, watchlist: [...prev.watchlist, data] }));
+
+    fetch(id).catch(() => {
+      setUser((prev) => ({
+        ...prev,
+        watchlist: prev.watchlist.filter((data) => {
+          return !(data.id === id && data.mediaType === mediaType);
+        }),
+      }));
+    });
+  };
+
+  const removeFromWatchlist = async (id, mediaType) => {
+    const data = { id, mediaType };
+    const fetch = mediaType === "movie" ? unwatchlistMovie : unWatchlistTvshow;
+
+    setUser((prev) => ({
+      ...prev,
+      watchlist: prev.watchlist.filter((data) => {
+        return !(data.id === id && data.mediaType === mediaType);
+      }),
+    }));
+
+    fetch(id).catch(() => {
+      setUser((prev) => ({ ...prev, watchlist: [...prev.watchlist, data] }));
+    });
+  };
+
   const oppositeTheme = theme === "dark" ? "light" : "dark";
   const state = {
     user,
@@ -190,6 +258,10 @@ export default function StateProvider({ children }) {
     checkMovieExist,
     checkTvshowExist,
     checkCategory,
+    addInFavorites,
+    removeFromFavorites,
+    addInWatchlist,
+    removeFromWatchlist,
   };
 
   return (

@@ -27,6 +27,22 @@ export function getData(endpoint, options = getOptions()) {
   });
 }
 
+export function postData(endpoint, payload = {}, options = getOptions()) {
+  return new Promise(async (resolve, reject) => {
+    http
+      .post(endpoint, payload, options)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((e) => {
+        const message = e?.response?.data ?? e.message;
+
+        toast.error(message, { theme: theme() });
+        reject(message);
+      });
+  });
+}
+
 export function deleteData(endpoint, options = getOptions()) {
   return new Promise(async (resolve, reject) => {
     http
