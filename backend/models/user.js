@@ -31,7 +31,17 @@ const schema = new mongoose.Schema(
         },
       },
     ],
-    watchlist: [String],
+    watchlist: [
+      {
+        _id: false,
+        id: mongoose.Types.ObjectId,
+        mediaType: {
+          type: String,
+          enum: ["movie", "tvshow"],
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

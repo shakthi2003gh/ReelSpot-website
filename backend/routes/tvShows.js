@@ -106,4 +106,46 @@ router.delete("/:tvshow_id/unfavorite", ...favoriteArgs, async (req, res) => {
   res.send(data);
 });
 
+router.post("/:tvshow_id/watchlist", ...favoriteArgs, async (req, res) => {
+  const id = req.params.tvshow_id;
+  const tmdb_id = req.tmdb_ids?.tvshow_id;
+  const mediaType = "tvshow";
+
+  const tvShow = id ? await TvShow.findById(id) : await searchTvShow(tmdb_id);
+  if (!tvShow) return res.status(404).send("Tvshow not found");
+
+  const isAlreadyWatchlist = req.user.watchlist?.some((data) => {
+    return data.id === tvShow._id && data.mediaType === mediaType;
+  });
+  if (isAlreadyWatchlist)
+    return res.status(409).send("Tvshow with given id already in watchlist");
+
+  const data = { id: tvShow._id, mediaType };
+  await User.findByIdAndUpdate(req.user._id, { $push: { watchlist: data } });
+
+  res.send(data);
+});
+
+router.delete("/:tvshow_id/unwatchlist", ...favoriteArgs, async (req, res) => {
+  const id = req.params.tvshow_id;
+  const tmdb_id = req.tmdb_ids?.tvshow_id;
+  const mediaType = "tvshow";
+
+  const tvShow = id ? await TvShow.findById(id) : await searchTvShow(tmdb_id);
+  if (!tvShow) return res.status(404).send("Tvshow not found");
+
+  const isNotInWatchlist = req.user.watchlist?.every((data) => {
+    return data.id !== tvShow._id && data.mediaType !== mediaType;
+  });
+  if (isNotInWatchlist)
+    return res
+      .status(200)
+      .send("Tvshow with given id already not in watchlist");
+
+  const data = { id: tvShow._id, mediaType };
+  await User.findByIdAndUpdate(req.user._id, { $pull: { watchlist: data } });
+
+  res.send(data);
+});
+
 exports.tvShows = router;

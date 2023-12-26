@@ -84,4 +84,44 @@ router.delete("/:movie_id/unfavorite", ...args, async (req, res) => {
   res.send(data);
 });
 
+router.post("/:movie_id/watchlist", ...args, async (req, res) => {
+  const id = req.params.movie_id;
+  const tmdb_id = req.tmdb_ids?.movie_id;
+  const mediaType = "movie";
+
+  const movie = id ? await Movie.findById(id) : await searchMovie(tmdb_id);
+  if (!movie) return res.status(404).send("Movie not found");
+
+  const isAlreadyWatchlist = req.user.watchlist?.some((data) => {
+    return data.id === movie._id && data.mediaType === mediaType;
+  });
+  if (isAlreadyWatchlist)
+    return res.status(409).send("Movie with given id already in watchlist");
+
+  const data = { id: movie._id, mediaType };
+  await User.findByIdAndUpdate(req.user._id, { $push: { watchlist: data } });
+
+  res.send(data);
+});
+
+router.delete("/:movie_id/unwatchlist", ...args, async (req, res) => {
+  const id = req.params.movie_id;
+  const tmdb_id = req.tmdb_ids?.movie_id;
+  const mediaType = "movie";
+
+  const movie = id ? await Movie.findById(id) : await searchMovie(tmdb_id);
+  if (!movie) return res.status(404).send("Movie not found");
+
+  const isNotInWatchlist = req.user.watchlist?.every((data) => {
+    return data.id !== movie._id && data.mediaType !== mediaType;
+  });
+  if (isNotInWatchlist)
+    return res.status(200).send("Movie with given id already not in watchlist");
+
+  const data = { id: movie._id, mediaType };
+  await User.findByIdAndUpdate(req.user._id, { $pull: { watchlist: data } });
+
+  res.send(data);
+});
+
 exports.movies = router;
