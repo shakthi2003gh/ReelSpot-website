@@ -1,6 +1,8 @@
 const express = require("express");
 const { Page } = require("../models/page");
+const { User } = require("../models/user");
 const { Movie } = require("../models/movie");
+const { auth } = require("../middleware/auth");
 const { validateObjectId } = require("../middleware/validateObjectId");
 const { getPageID } = require("../helper/page");
 const { searchMovie } = require("../helper/movie");
@@ -39,6 +41,47 @@ router.get("/:movie_id/casts", validateObjectId, async (req, res) => {
   if (!movie) return res.status(404).send("Movie not found");
 
   res.send(movie.casts);
+});
+
+const args = [validateObjectId, auth];
+router.post("/:movie_id/favorite", ...args, async (req, res) => {
+  const id = req.params.movie_id;
+  const tmdb_id = req.tmdb_ids?.movie_id;
+  const mediaType = "movie";
+
+  const movie = id ? await Movie.findById(id) : await searchMovie(tmdb_id);
+  if (!movie) return res.status(404).send("Movie not found");
+
+  const isAlreadyFavorite = req.user.favorites?.some((data) => {
+    return data.id === movie._id && data.mediaType === mediaType;
+  });
+  if (isAlreadyFavorite)
+    return res.status(409).send("Movie with given id already in favorites");
+
+  const data = { id: movie._id, mediaType };
+  await User.findByIdAndUpdate(req.user._id, { $push: { favorites: data } });
+
+  res.send(data);
+});
+
+router.delete("/:movie_id/unfavorite", ...args, async (req, res) => {
+  const id = req.params.movie_id;
+  const tmdb_id = req.tmdb_ids?.movie_id;
+  const mediaType = "movie";
+
+  const movie = id ? await Movie.findById(id) : await searchMovie(tmdb_id);
+  if (!movie) return res.status(404).send("Movie not found");
+
+  const isNotFavorite = req.user.favorites?.every((data) => {
+    return data.id !== movie._id && data.mediaType !== mediaType;
+  });
+  if (isNotFavorite)
+    return res.status(200).send("Movie with given id already not in favorites");
+
+  const data = { id: movie._id, mediaType };
+  await User.findByIdAndUpdate(req.user._id, { $pull: { favorites: data } });
+
+  res.send(data);
 });
 
 exports.movies = router;

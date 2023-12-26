@@ -20,7 +20,17 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    favorites: [String],
+    favorites: [
+      {
+        _id: false,
+        id: mongoose.Types.ObjectId,
+        mediaType: {
+          type: String,
+          enum: ["movie", "tvshow"],
+          required: true,
+        },
+      },
+    ],
     watchlist: [String],
   },
   {
