@@ -1,3 +1,4 @@
+@use "../utilities/variable" as *;
 @forward "404";
 @forward "auth";
 @forward "details";
@@ -11,7 +12,30 @@
   align-content: start;
   gap: 1rem;
 
-  @media (width >= 750px) {
+  @media (min-width: $desktop-device) {
     gap: 1.5rem;
+  }
+}
+
+.favorite-page,
+.watchlist-page {
+  h1 {
+    color: var(--clr-text-700);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    justify-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+
+    @media (min-width: $tablet-device) {
+      grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+    }
+
+    @media (min-width: $desktop-device) {
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    }
   }
 }

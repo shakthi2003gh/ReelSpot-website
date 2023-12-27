@@ -103,24 +103,22 @@ export default function StateProvider({ children }) {
     });
   };
 
+  const checkTvshowExist = async (id) => {
+    const tvshow = tvshows[id];
+    if (tvshow) return;
+
+    fetchTvshow(id).then((data) => {
+      setTvshows((prev) => ({ ...prev, [data._id]: data }));
+      if (id !== data._id) navigate("/tvshows/" + data._id, { replace: true });
+    });
+  };
+
   const checkTvshowSeasonsExist = (id) => {
     const tvshow = tvshows[id];
     if (!!tvshow?.seasons?.length) return;
 
     fetchTvshowSeasons(id).then((seasons) => {
       setTvshows((prev) => ({ ...prev, [id]: { ...prev[id], seasons } }));
-    });
-  };
-
-  const checkTvshowExist = async (id) => {
-    const tvshow = tvshows[id];
-    if (tvshow) return checkTvshowSeasonsExist(id);
-
-    fetchTvshow(id).then((data) => {
-      setTvshows((prev) => ({ ...prev, [data._id]: data }));
-      if (id !== data._id) navigate("/tvshows/" + data._id, { replace: true });
-
-      checkTvshowSeasonsExist(id);
     });
   };
 
@@ -172,14 +170,25 @@ export default function StateProvider({ children }) {
 
     setUser((prev) => ({ ...prev, favorites: [...prev.favorites, data] }));
 
-    fetch(id).catch(() => {
-      setUser((prev) => ({
-        ...prev,
-        favorites: prev.favorites.filter((data) => {
-          return !(data.id === id && data.mediaType === mediaType);
-        }),
-      }));
-    });
+    fetch(id)
+      .then((verifiedData) => {
+        setUser((prev) => ({
+          ...prev,
+          favorites: prev.favorites.filter((data) => {
+            if (data.id === id && data.mediaType === mediaType)
+              return verifiedData;
+            return data;
+          }),
+        }));
+      })
+      .catch(() => {
+        setUser((prev) => ({
+          ...prev,
+          favorites: prev.favorites.filter((data) => {
+            return !(data.id === id && data.mediaType === mediaType);
+          }),
+        }));
+      });
   };
 
   const removeFromFavorites = async (id, mediaType) => {
@@ -204,14 +213,27 @@ export default function StateProvider({ children }) {
 
     setUser((prev) => ({ ...prev, watchlist: [...prev.watchlist, data] }));
 
-    fetch(id).catch(() => {
-      setUser((prev) => ({
-        ...prev,
-        watchlist: prev.watchlist.filter((data) => {
-          return !(data.id === id && data.mediaType === mediaType);
-        }),
-      }));
-    });
+    fetch(id)
+      .then((data) => {
+        setUser((prev) => ({
+          ...prev,
+          watchlist: prev.watchlist
+            .filter((data) => {
+              if (data.id === id && data.mediaType === mediaType)
+                return verifiedData;
+              return data;
+            })
+            .push(data),
+        }));
+      })
+      .catch(() => {
+        setUser((prev) => ({
+          ...prev,
+          watchlist: prev.watchlist.filter((data) => {
+            return !(data.id === id && data.mediaType === mediaType);
+          }),
+        }));
+      });
   };
 
   const removeFromWatchlist = async (id, mediaType) => {
@@ -257,6 +279,7 @@ export default function StateProvider({ children }) {
     signupUser,
     checkMovieExist,
     checkTvshowExist,
+    checkTvshowSeasonsExist,
     checkCategory,
     addInFavorites,
     removeFromFavorites,

@@ -14,10 +14,11 @@ export default function TvshowPage() {
   const isLargeDevice = useMediaQuery(1250);
 
   const { tvshows, genres: Genres } = useFetch((state) => state);
-  const { checkTvshowExist } = useController();
+  const { checkTvshowExist, checkTvshowSeasonsExist } = useController();
 
   useEffect(() => {
     checkTvshowExist(id);
+    if (!!tvshow?._id) checkTvshowSeasonsExist(tvshow?._id);
   }, [id]);
 
   const tvshow = tvshows[id];

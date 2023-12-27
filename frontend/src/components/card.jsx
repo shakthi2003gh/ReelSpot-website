@@ -1,12 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useController, useFetch } from "../state";
+import { useEffect } from "react";
 
 export default function Card({ id, mediaType }) {
   const navigate = useNavigate();
   const type = mediaType === "movie" ? "movies" : "tvshows";
 
   const { addInFavorites, removeFromFavorites } = useController();
+  const { checkMovieExist, checkTvshowExist } = useController();
   const data = useFetch((state) => state?.[type]?.[id]);
   const favorites = useFetch((state) => state.user?.favorites);
   const favorite = favorites?.some((data) => {
@@ -16,6 +18,11 @@ export default function Card({ id, mediaType }) {
   const handleKeydown = (e) => {
     if (e.keyCode === 13) navigate(to);
   };
+
+  useEffect(() => {
+    if (mediaType === "movie") checkMovieExist(id);
+    else checkTvshowExist(id);
+  }, [id, mediaType]);
 
   if (!data) return <div>loading...</div>;
 
