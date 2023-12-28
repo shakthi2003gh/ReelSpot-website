@@ -1,9 +1,9 @@
 import { useId } from "react";
-import { useFetch } from "../state";
+import { getPage } from "../state/page";
 import LandingPage from "../layouts/landingPage";
 
 export default function Home() {
-  const home = useFetch((state) => state.page?.home);
+  const { home } = getPage();
   const sections = [
     {
       id: useId(),

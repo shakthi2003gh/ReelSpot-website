@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useController, useFetch } from "../state/index";
+import { useData } from "../state/data";
+import { useController } from "../state/index";
 import useMediaQuery from "../hooks/useMediaQuery";
 import InteractActions from "../layouts/interactActions";
 import Casts from "../layouts/casts";
@@ -10,28 +11,23 @@ import Pagination from "../components/Pagination";
 
 export default function TvshowPage() {
   const { id } = useParams();
-
-  const isLargeDevice = useMediaQuery(1250);
-
-  const { tvshows, genres: Genres } = useFetch((state) => state);
+  const mediaType = "tvshows";
+  const tvshow = useData(id, mediaType);
   const { checkTvshowExist, checkTvshowSeasonsExist } = useController();
+  const isLargeDevice = useMediaQuery(1250);
 
   useEffect(() => {
     checkTvshowExist(id);
     if (!!tvshow?._id) checkTvshowSeasonsExist(tvshow?._id);
   }, [id]);
 
-  const tvshow = tvshows[id];
   if (!tvshow) return <div>Not found with {id}</div>;
 
   const { poster, banner, video, language } = tvshow;
   const { title, tagline, overview, genres, seasons } = tvshow;
   const { total_seasons, total_episodes, status, casts } = tvshow;
 
-  const genresString = genres
-    ?.filter((_, i) => i < 4)
-    .map((id) => Genres[id]?.name)
-    .join(", ");
+  const genresString = genres?.filter((_, i) => i < 4).join(", ");
 
   return (
     <div className="tvshow-page">
@@ -52,7 +48,7 @@ export default function TvshowPage() {
 
             <p>{tagline || "No tagline"}</p>
 
-            <InteractActions id={id} mediaType="tvshow" />
+            <InteractActions id={id} mediaType={mediaType} />
           </div>
         </div>
 

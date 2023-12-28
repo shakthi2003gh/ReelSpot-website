@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useController, useFetch } from "../state/index";
+import { useData } from "../state/data";
+import { useController } from "../state/index";
 import InteractActions from "../layouts/interactActions";
 import Casts from "../layouts/casts";
 import VideoPlayer from "../components/videoContainer";
@@ -8,10 +9,9 @@ import Pagination from "../components/Pagination";
 
 export default function MoviePage() {
   const { id } = useParams();
-  const { movies, genres: Genres } = useFetch((state) => state);
+  const mediaType = "movies";
+  const movie = useData(id, mediaType);
   const { checkMovieExist } = useController();
-
-  const movie = movies[id];
 
   useEffect(() => {
     checkMovieExist(id);
@@ -26,10 +26,7 @@ export default function MoviePage() {
   const duration = `${Math.floor(runtime / 60)}h ${runtime % 60}m`;
   const opions = { day: "2-digit", month: "2-digit", year: "numeric" };
   const release = new Date(release_date).toLocaleDateString("en-IN", opions);
-  const genresString = genres
-    ?.filter((_, i) => i < 4)
-    .map((id) => Genres[id]?.name)
-    .join(", ");
+  const genresString = genres?.filter((_, i) => i < 4)?.join(", ");
 
   return (
     <div className="movie-page">
@@ -50,7 +47,7 @@ export default function MoviePage() {
 
             <p>{tagline || "No tagline"}</p>
 
-            <InteractActions id={id} mediaType="movie" />
+            <InteractActions id={id} mediaType={mediaType} />
           </div>
         </div>
 

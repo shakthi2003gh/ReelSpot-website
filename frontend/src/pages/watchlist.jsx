@@ -1,9 +1,9 @@
-import { useFetch } from "../state";
+import { getUser } from "../state/user";
 import RenderCards from "../components/renderCards";
 import Pagination from "../components/pagination";
 
 export default function WatchList() {
-  const { watchlist } = useFetch((state) => state?.user || {});
+  const { watchlist } = getUser() || {};
 
   return (
     <div className="watchlist-page">

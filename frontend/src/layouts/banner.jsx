@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaPlay } from "react-icons/fa6";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
-import { useController, useFetch } from "../state";
+import { useData } from "../state/data";
+import { useController } from "../state";
 import useMediaQuery from "./../hooks/useMediaQuery";
 
 export default function Banner({ recommends }) {
@@ -10,21 +11,16 @@ export default function Banner({ recommends }) {
 
   const [index, setIndex] = useState(0);
   const isDisplayLarge = useMediaQuery(780);
-  const { genres: Genres } = useFetch((state) => state);
 
   const { id, mediaType } = recommends[index];
   const type = mediaType === "movie" ? "movies" : "tvshows";
 
+  const data = useData(id, type);
   const { addInWatchlist, removeFromWatchlist } = useController();
-  const data = useFetch((state) => state?.[type]?.[id]);
-  const watchlists = useFetch((state) => state.user?.watchlist);
-  const watchlist = watchlists?.some((data) => {
-    return data.id === id && data.mediaType === mediaType;
-  });
 
   const previews = recommends.map(({ id, mediaType }) => {
     const type = mediaType === "movie" ? "movies" : "tvshows";
-    const data = useFetch((state) => state?.[type]?.[id]);
+    const data = useData(id, type);
 
     return { id, banner: data.banner };
   });
@@ -33,15 +29,12 @@ export default function Banner({ recommends }) {
 
   const { _id, tmdb_id, title, banner } = data;
   const { runtime, genres, release_date } = data;
-  const { total_episodes, total_seasons } = data;
+  const { total_episodes, total_seasons, watchlist } = data;
 
   const to = `/${type}/${_id || tmdb_id}`;
+  const genresString = genres.filter((_, i) => i < 4).join(", ");
   const duration = `${Math.floor(runtime / 60)}h ${runtime % 60}m`;
   const year = new Date(release_date).getFullYear();
-  const genresString = genres
-    .filter((_, i) => i < 4)
-    .map((id) => Genres[id].name)
-    .join(", ");
 
   useEffect(() => {
     const interval = setInterval(() => {

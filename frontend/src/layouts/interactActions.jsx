@@ -1,18 +1,12 @@
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
-import { useController, useFetch } from "../state";
+import { useData } from "../state/data";
+import { useController } from "../state";
 
 export default function InteractActions({ id, mediaType }) {
-  const { favorites, watchlist: watchlists } = useFetch((state) => state?.user);
+  const { favorite, watchlist } = useData(id, mediaType) || {};
   const { addInFavorites, removeFromFavorites } = useController();
   const { addInWatchlist, removeFromWatchlist } = useController();
-
-  const favorite = favorites?.some((data) => {
-    return data.id === id && data.mediaType === mediaType;
-  });
-  const watchlist = watchlists?.some((data) => {
-    return data.id === id && data.mediaType === mediaType;
-  });
 
   const toggleFavorite = () => {
     if (favorite) removeFromFavorites(id, mediaType);

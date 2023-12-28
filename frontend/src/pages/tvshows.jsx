@@ -1,9 +1,9 @@
 import { useId } from "react";
-import { useFetch } from "../state";
+import { getPage } from "../state/page";
 import LandingPage from "../layouts/landingPage";
 
 export default function Tvshows() {
-  const tvshows = useFetch((state) => state.page?.tvshows);
+  const { tvshows } = getPage();
   const sections = [
     {
       id: useId(),

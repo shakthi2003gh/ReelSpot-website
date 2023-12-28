@@ -1,9 +1,9 @@
-import { useFetch } from "../state";
+import { getUser } from "../state/user";
 import RenderCards from "./../components/renderCards";
 import Pagination from "./../components/pagination";
 
 export default function Favorites() {
-  const { favorites } = useFetch((state) => state?.user || {});
+  const { favorites } = getUser() || {};
 
   return (
     <div className="favorite-page">

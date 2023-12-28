@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { useController, useFetch } from "../state";
+import { useController } from "../state";
+import { getCategoryPage } from "../state/page";
 import Pagination from "../components/Pagination";
 import RenderCards from "../components/renderCards";
 import PageNotFound from "./404";
@@ -19,7 +20,7 @@ export default function Category() {
   const { checkCategory } = useController();
 
   const mediaType = loaction.pathname.match("movies") ? "movies" : "tvshows";
-  const data = useFetch((state) => state.categories?.[mediaType]?.[category]);
+  const data = getCategoryPage(category, mediaType);
 
   const [isFetching, setIsFetching] = useState(false);
   const dataCount = data ? Math.ceil(data.length / 20) : 0;

@@ -1,9 +1,9 @@
 import { useId } from "react";
-import { useFetch } from "../state";
+import { getPage } from "../state/page";
 import LandingPage from "../layouts/landingPage";
 
 export default function Movies() {
-  const movies = useFetch((state) => state.page?.movies);
+  const { movies } = getPage();
   const sections = [
     {
       id: useId(),
