@@ -43,13 +43,20 @@
         padding: 0;
         border: none;
         background: transparent;
+
+        &:disabled {
+          opacity: 0.5;
+
+          svg {
+            color: var(--clr-danger-400);
+          }
+        }
       }
 
       svg {
         font-size: 1.4em;
         margin-top: 0.2rem;
         color: var(--clr-danger-400);
-        cursor: pointer;
       }
     }
   }

@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
-import { useData } from "../state/data";
 import { useController } from "../state";
+import { getUser } from "../state/user";
+import { useData } from "../state/data";
 
 export default function Card({ id, mediaType }) {
   const navigate = useNavigate();
   const type = mediaType === "movie" ? "movies" : "tvshows";
 
+  const user = getUser();
   const data = useData(id, type);
   const { addInFavorites, removeFromFavorites } = useController();
   const { checkMovieExist, checkTvshowExist } = useController();
@@ -44,9 +46,10 @@ export default function Card({ id, mediaType }) {
           </Link>
 
           <button
-            title="Add to favorite"
+            title={user ? "Add to favorite" : "Login to add to favorite"}
             tabIndex={-1}
             onClick={toggleFavorite}
+            disabled={!user}
           >
             {favorite ? <IoMdHeart /> : <IoMdHeartEmpty />}
           </button>

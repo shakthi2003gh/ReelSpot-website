@@ -27,6 +27,11 @@ export default function UserProvider({ children }) {
     });
   };
 
+  const logoutUser = () => {
+    setUser(null);
+    localStorage.removeItem(TOKEN);
+  };
+
   const signupUser = async (payload) => {
     return createUser(payload).then((data) => {
       setUser(data);
@@ -84,16 +89,14 @@ export default function UserProvider({ children }) {
     setUser((prev) => ({ ...prev, watchlist: [...prev.watchlist, data] }));
 
     fetch(id)
-      .then((data) => {
+      .then((verifiedData) => {
         setUser((prev) => ({
           ...prev,
-          watchlist: prev.watchlist
-            .filter((data) => {
-              if (data.id === id && data.mediaType === mediaType)
-                return verifiedData;
-              return data;
-            })
-            .push(data),
+          watchlist: prev.watchlist.filter((data) => {
+            if (data.id === id && data.mediaType === mediaType)
+              return verifiedData;
+            return data;
+          }),
         }));
       })
       .catch(() => {
@@ -131,6 +134,7 @@ export default function UserProvider({ children }) {
   const value = {
     user,
     loginUser,
+    logoutUser,
     signupUser,
     addInFavorites,
     addInWatchlist,

@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
+import { FaUserAlt } from "react-icons/fa";
 import { MdMenu } from "react-icons/md";
 import { useController, useFetch } from "../state";
+import { getUser } from "../state/user";
 
 export default function Header() {
+  const user = getUser();
   const { ui, mediaQuery } = useFetch((state) => state);
   const { toggleMenuOpen } = useController();
   const { theme } = ui;
@@ -29,9 +32,15 @@ export default function Header() {
           </Link>
         </div>
 
-        <Link className="btn btn--primary" to="/auth?method=signin">
-          Login
-        </Link>
+        {user ? (
+          <Link to="/profile" className="profile">
+            <span className="name">{user.name}</span> <FaUserAlt />
+          </Link>
+        ) : (
+          <Link className="btn btn--primary" to="/auth?method=signin">
+            Login
+          </Link>
+        )}
       </div>
     </header>
   );

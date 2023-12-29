@@ -18,7 +18,8 @@ export function useData(id, mediaType) {
   let data = state[mediaType]?.[id];
   if (!data) return null;
 
-  const type = mediaType.replace("s", "");
+  const type = mediaType === "movies" ? "movie" : "tvshow";
+
   const favorite = user?.favorites?.some((data) => {
     return data.id === id && data.mediaType === type;
   });

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaPlay } from "react-icons/fa6";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
-import { useData } from "../state/data";
 import { useController } from "../state";
+import { getUser } from "../state/user";
+import { useData } from "../state/data";
 import useMediaQuery from "./../hooks/useMediaQuery";
 
 export default function Banner({ recommends }) {
@@ -15,6 +16,7 @@ export default function Banner({ recommends }) {
   const { id, mediaType } = recommends[index];
   const type = mediaType === "movie" ? "movies" : "tvshows";
 
+  const user = getUser();
   const data = useData(id, type);
   const { addInWatchlist, removeFromWatchlist } = useController();
 
@@ -97,7 +99,12 @@ export default function Banner({ recommends }) {
             <span>watch</span>
           </Link>
 
-          <button className="btn btn--transperent" onClick={toggleWatchlist}>
+          <button
+            title={user ? "Add to watchlist" : "Login to add to watchlist"}
+            className="btn btn--transperent"
+            onClick={toggleWatchlist}
+            disabled={!user}
+          >
             {watchlist ? <IoBookmark /> : <IoBookmarkOutline />}
             <span>{watchlist ? "added" : "watchlist"}</span>
           </button>

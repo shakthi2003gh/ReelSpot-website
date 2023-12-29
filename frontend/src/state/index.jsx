@@ -18,9 +18,9 @@ export function useFetch(fn) {
 }
 
 export function useController() {
-  const { loginUser, signupUser, addInFavorites } = useContext(UserContext);
-  const { addInWatchlist, removeFromFavorites } = useContext(UserContext);
-  const { removeFromWatchlist } = useContext(UserContext);
+  const { loginUser, logoutUser, signupUser } = useContext(UserContext);
+  const { addInFavorites, removeFromFavorites } = useContext(UserContext);
+  const { addInWatchlist, removeFromWatchlist } = useContext(UserContext);
   const { checkCategory } = useContext(PageContext);
   const { checkMovieExist, checkTvshowExist } = useContext(DataContext);
   const { checkTvshowSeasonsExist } = useContext(DataContext);
@@ -30,6 +30,7 @@ export function useController() {
     toggleTheme,
     toggleMenuOpen,
     loginUser,
+    logoutUser,
     signupUser,
     checkMovieExist,
     checkTvshowExist,

@@ -10,7 +10,7 @@ header {
     gap: 1rem;
     padding: 5px 10px;
 
-    @media (width >= $desktop-device) {
+    @media (min-width: $desktop-device) {
       padding: 10px 20px;
     }
   }
@@ -53,6 +53,52 @@ header {
 
       .logo {
         height: 38px;
+      }
+    }
+  }
+
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1rem;
+    text-decoration: none;
+    color: var(--clr-text-700);
+    outline: none;
+
+    &:hover {
+      color: var(--clr-primary-700);
+    }
+
+    &:focus-visible {
+      outline: 1px dashed var(--clr-text-400);
+    }
+
+    .name {
+      text-wrap: nowrap;
+      text-overflow: ellipsis;
+      max-width: 140px;
+      overflow: hidden;
+    }
+
+    svg {
+      font-size: 0.87rem;
+      margin-bottom: 0.1rem;
+    }
+
+    @media (min-width: $tablet-device) {
+      font-size: 1.2rem;
+
+      svg {
+        font-size: 1rem;
+      }
+    }
+
+    @media (min-width: $desktop-device) {
+      font-size: 1.4rem;
+
+      svg {
+        font-size: 1.1rem;
       }
     }
   }
