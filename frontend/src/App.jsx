@@ -4,6 +4,7 @@ import Header from "./layouts/header";
 import SideBar from "./layouts/sideBar";
 import Navigation from "./layouts/navigation";
 import Home from "./pages/home";
+import Profile from "./pages/profile";
 import Movies from "./pages/movies";
 import Tvshows from "./pages/tvshows";
 import Favorites from "./pages/favorites";
@@ -33,6 +34,7 @@ function App() {
           <Route path="/movies/category/:category" element={<Category />} />
           <Route path="/movies/:id" element={<MoviePage />} />
           <Route path="/movies" element={<Movies />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>

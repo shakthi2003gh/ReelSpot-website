@@ -1,6 +1,7 @@
 @use "../utilities/variable" as *;
 @forward "404";
 @forward "auth";
+@forward "profile";
 @forward "details";
 @forward "movie";
 @forward "tvshow";

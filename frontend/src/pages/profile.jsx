@@ -1,3 +1,51 @@
+import { MdLogout } from "react-icons/md";
+import { GoSun, GoMoon } from "react-icons/go";
+import { useController, useFetch } from "../state";
+import { getUser } from "../state/user";
+import CardSection from "./../layouts/cardSection";
+import avatar from "../assets/avatar.png";
+
 export default function Profile() {
-  return <div>Profile</div>;
+  const user = getUser();
+  const { theme, oppositeTheme } = useFetch((state) => state.ui);
+  const { toggleTheme, logoutUser } = useController();
+
+  if (!user) return <div>Login to view</div>;
+
+  return (
+    <div className="profile-page">
+      <div className="user-details">
+        <img src={avatar} alt="" title="profile image is disabled" />
+
+        <div className="info">
+          <div className="name">{user.name}</div>
+          <div className="email">{user.email}</div>
+        </div>
+      </div>
+
+      <div className="settings">
+        <h2>quick actions</h2>
+
+        <div className="actions">
+          <button className="btn btn--primary" onClick={toggleTheme}>
+            {theme === "dark" ? <GoSun /> : <GoMoon />}
+            <span>{oppositeTheme + "mode"}</span>
+          </button>
+
+          <button
+            className="btn btn--danger"
+            onClick={logoutUser}
+            disabled={!user}
+          >
+            <MdLogout />
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+
+      <CardSection title="favorites" to="/favorites" data={user.favorites} />
+
+      <CardSection title="watchlist" to="/watchlist" data={user.watchlist} />
+    </div>
+  );
 }

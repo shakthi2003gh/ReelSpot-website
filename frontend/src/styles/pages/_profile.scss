@@ -1,0 +1,109 @@
+@use "../utilities/variable" as *;
+
+.profile-page {
+  .user-details {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    img {
+      width: 100px;
+      aspect-ratio: 1;
+      background-color: var(--bg-transperent);
+
+      [theme="dark"] & {
+        filter: invert(1);
+      }
+
+      @media (min-width: $tablet-device) {
+        width: 120px;
+      }
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .name {
+        font-weight: 700;
+        color: var(--clr-text-700);
+      }
+
+      .email {
+        opacity: 0.8;
+      }
+    }
+
+    @media (min-width: $tablet-device) {
+      gap: 1.5rem;
+
+      img {
+        width: 120px;
+      }
+
+      .info {
+        font-size: 1.2rem;
+
+        .name {
+          font-size: 1.4rem;
+        }
+      }
+    }
+
+    @media (min-width: $desktop-device) {
+      img {
+        width: 150px;
+      }
+    }
+  }
+
+  .settings {
+    margin-block: 2rem;
+
+    h2 {
+      margin-block: 0 0.8rem;
+      font-size: 1.35rem;
+      font-family: var(--ff-inter);
+      text-transform: capitalize;
+      color: var(--clr-text-700);
+    }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      margin-left: 1rem;
+
+      .btn--danger {
+        color: var(--clr-white-700);
+        background-color: var(--clr-danger-400);
+
+        &:hover {
+          background-color: var(--clr-danger-700);
+        }
+      }
+    }
+
+    @media (min-width: $tablet-device) {
+      h2 {
+        font-size: 1.725rem;
+      }
+    }
+  }
+
+  .card-section {
+    margin-top: 1rem;
+
+    .cards {
+      overflow: hidden;
+    }
+
+    @media (min-width: $tablet-device) {
+      margin-top: 1.5rem;
+    }
+
+    @media (min-width: $desktop-device) {
+      margin-top: 2rem;
+    }
+  }
+}
