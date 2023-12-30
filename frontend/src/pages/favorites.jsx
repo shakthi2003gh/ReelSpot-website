@@ -1,8 +1,9 @@
 import { getUser } from "../state/user";
+import { authRoute } from "./auth";
 import RenderCards from "./../components/renderCards";
 import Pagination from "./../components/pagination";
 
-export default function Favorites() {
+function favorites() {
   const { favorites } = getUser() || {};
 
   return (
@@ -19,3 +20,6 @@ export default function Favorites() {
     </div>
   );
 }
+
+const Favorites = authRoute(favorites);
+export default Favorites;

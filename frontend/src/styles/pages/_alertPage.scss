@@ -1,6 +1,8 @@
 @use "../utilities/variable" as *;
 
-.media-not-found {
+.alert-page {
+  height: calc(100dvh - 43.25px);
+
   .body {
     display: grid;
     place-content: center;
@@ -8,7 +10,11 @@
     gap: 1.5rem;
     font-family: var(--ff-inter);
     font-size: 1.2rem;
-    height: 80%;
+    height: 100%;
+  }
+
+  .pagination + .body {
+    height: 88%;
   }
 
   .icon {
@@ -24,8 +30,20 @@
     }
   }
 
+  .message {
+    color: var(--clr-text-700);
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
   @media (min-width: $tablet-device) {
     .body {
+      gap: 2rem;
       font-size: 1.6rem;
     }
 
@@ -36,5 +54,13 @@
         font-size: 4rem;
       }
     }
+
+    .buttons {
+      gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: $desktop-device) {
+    height: calc(100dvh - 58px);
   }
 }

@@ -1,8 +1,9 @@
 import { getUser } from "../state/user";
 import RenderCards from "../components/renderCards";
 import Pagination from "../components/pagination";
+import { authRoute } from "./auth";
 
-export default function WatchList() {
+function watchList() {
   const { watchlist } = getUser() || {};
 
   return (
@@ -19,3 +20,6 @@ export default function WatchList() {
     </div>
   );
 }
+
+const WatchList = authRoute(watchList);
+export default WatchList;

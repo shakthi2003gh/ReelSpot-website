@@ -30,7 +30,7 @@ export default function UserProvider({ children }) {
   const loginUser = async (payload) => {
     return authUser(payload).then((data) => {
       setUser(data);
-      navigate("/", { replace: true });
+      navigate(-1, { replace: true });
     });
   };
 
@@ -42,7 +42,7 @@ export default function UserProvider({ children }) {
   const signupUser = async (payload) => {
     return createUser(payload).then((data) => {
       setUser(data);
-      navigate("/", { replace: true });
+      navigate(-1, { replace: true });
     });
   };
 

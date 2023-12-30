@@ -2,10 +2,11 @@ import { MdLogout } from "react-icons/md";
 import { GoSun, GoMoon } from "react-icons/go";
 import { useController, useFetch } from "../state";
 import { getUser } from "../state/user";
+import { authRoute } from "./auth";
 import CardSection from "./../layouts/cardSection";
 import avatar from "../assets/avatar.png";
 
-export default function Profile() {
+function profile() {
   const user = getUser();
   const { theme, oppositeTheme } = useFetch((state) => state.ui);
   const { toggleTheme, logoutUser } = useController();
@@ -59,3 +60,6 @@ export default function Profile() {
     </div>
   );
 }
+
+const Profile = authRoute(profile);
+export default Profile;

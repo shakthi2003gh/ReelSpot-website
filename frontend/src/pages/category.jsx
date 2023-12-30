@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useController } from "../state";
 import { getCategoryPage } from "../state/page";
+import { authRoute } from "./auth";
 import Pagination from "../components/Pagination";
 import RenderCards from "../components/renderCards";
 import PageNotFound from "./404";
@@ -14,7 +15,7 @@ function isInvalidCategory(category) {
   );
 }
 
-export default function Category() {
+function category() {
   const loaction = useLocation();
   const { category } = useParams();
   const { checkCategory } = useController();
@@ -65,3 +66,6 @@ export default function Category() {
     </div>
   );
 }
+
+const Category = authRoute(category);
+export default Category;

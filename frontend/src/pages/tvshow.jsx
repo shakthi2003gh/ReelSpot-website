@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useController } from "../state";
+import { getUser } from "../state/user";
 import { useData } from "../state/data";
-import { useController } from "../state/index";
+import { AuthRoute } from "./auth";
 import useMediaQuery from "../hooks/useMediaQuery";
 import DetailsPageLoading from "../layouts/detailsPageLoading";
 import InteractActions from "../layouts/interactActions";
@@ -13,22 +15,31 @@ import MediaNotfound from "./mediaNotfound";
 
 export default function TvshowPage() {
   const { id } = useParams();
-  const [isLoading, setLoading] = useState(true);
   const mediaType = "tvshows";
-  const tvshow = useData(id, mediaType);
-  const { checkTvshowExist, checkTvshowSeasonsExist } = useController();
+  const [isLoading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
   const isLargeDevice = useMediaQuery(1250);
 
-  useEffect(() => {
-    if (id === "not-found") return;
+  const user = getUser();
+  const tvshow = useData(id, mediaType);
+  const { checkTvshowExist, checkTvshowSeasonsExist } = useController();
 
-    checkTvshowExist(id);
-    if (!!tvshow?._id) checkTvshowSeasonsExist(tvshow?._id);
+  useEffect(() => {
+    setLoading(true);
+
+    checkTvshowExist(id)
+      .then(() => setNotFound(false))
+      .catch(() => setNotFound(true))
+      .finally(() => setLoading(false));
   }, [id]);
 
-  if (id === "not-found") return <MediaNotfound mediaType="Tvshow" />;
-  if (tvshow && isLoading) setLoading(false);
+  useEffect(() => {
+    if (tvshow) checkTvshowSeasonsExist(tvshow?._id);
+  }, [tvshow]);
+
   if (isLoading) return <DetailsPageLoading />;
+  if (notFound && !user) return <AuthRoute />;
+  if (notFound) return <MediaNotfound mediaType="Tvshow" />;
 
   const { poster, banner, video, language } = tvshow;
   const { title, tagline, overview, genres, seasons } = tvshow;

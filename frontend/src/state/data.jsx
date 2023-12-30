@@ -41,33 +41,39 @@ export default function DataProvider({ children }) {
   const navigate = useNavigate();
 
   const checkMovieExist = async (id) => {
-    const movie = movies[id];
-    if (movie) return;
+    return new Promise((resolve, reject) => {
+      const movie = movies[id];
+      if (movie) return resolve();
 
-    fetchMovie(id)
-      .then((data) => {
-        setMovies((prev) => ({ ...prev, [data._id]: data }));
+      fetchMovie(id)
+        .then((data) => {
+          setMovies((prev) => ({ ...prev, [data._id]: data }));
 
-        if (id !== data._id) navigate("/movies/" + data._id, { replace: true });
-      })
-      .catch(() => {
-        navigate("/movies/not-found", { replace: true });
-      });
+          if (id !== data._id)
+            navigate("/movies/" + data._id, { replace: true });
+
+          resolve();
+        })
+        .catch(() => reject());
+    });
   };
 
   const checkTvshowExist = async (id) => {
-    const tvshow = tvshows[id];
-    if (tvshow) return;
+    return new Promise((resolve, reject) => {
+      const tvshow = tvshows[id];
+      if (tvshow) return resolve();
 
-    fetchTvshow(id)
-      .then((data) => {
-        setTvshows((prev) => ({ ...prev, [data._id]: data }));
-        if (id !== data._id)
-          navigate("/tvshows/" + data._id, { replace: true });
-      })
-      .catch(() => {
-        navigate("/tvshows/not-found", { replace: true });
-      });
+      fetchTvshow(id)
+        .then((data) => {
+          setTvshows((prev) => ({ ...prev, [data._id]: data }));
+
+          if (id !== data._id)
+            navigate("/tvshows/" + data._id, { replace: true });
+
+          resolve();
+        })
+        .catch(() => reject());
+    });
   };
 
   const checkTvshowSeasonsExist = (id) => {

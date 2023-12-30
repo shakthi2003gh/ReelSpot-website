@@ -4,7 +4,7 @@ import Pagination from "../components/Pagination";
 
 export default function MediaNotfound({ mediaType }) {
   return (
-    <div className="media-not-found">
+    <div className="media-not-found alert-page">
       <Pagination />
 
       <div className="body">
@@ -12,7 +12,7 @@ export default function MediaNotfound({ mediaType }) {
           {mediaType === "Movie" ? <MdLocalMovies /> : <PiTelevision />}
         </div>
 
-        <div>{mediaType} not found</div>
+        <div className="message">{mediaType} not found</div>
       </div>
     </div>
   );

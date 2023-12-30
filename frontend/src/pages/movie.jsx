@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useController } from "../state";
+import { getUser } from "../state/user";
 import { useData } from "../state/data";
-import { useController } from "../state/index";
+import { AuthRoute } from "./auth";
 import DetailsPageLoading from "../layouts/detailsPageLoading";
 import InteractActions from "../layouts/interactActions";
 import Casts from "../layouts/casts";
@@ -11,20 +13,26 @@ import MediaNotfound from "./mediaNotfound";
 
 export default function MoviePage() {
   const { id } = useParams();
-  const [isLoading, setLoading] = useState(true);
   const mediaType = "movies";
+  const [isLoading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+
+  const user = getUser();
   const movie = useData(id, mediaType);
   const { checkMovieExist } = useController();
 
   useEffect(() => {
-    if (id === "not-found") return;
+    setLoading(true);
 
-    checkMovieExist(id);
+    checkMovieExist(id)
+      .then(() => setNotFound(false))
+      .catch(() => setNotFound(true))
+      .finally(() => setLoading(false));
   }, [id]);
 
-  if (id === "not-found") return <MediaNotfound mediaType="Movie" />;
-  if (movie && isLoading) setLoading(false);
   if (isLoading) return <DetailsPageLoading />;
+  if (notFound && !user) return <AuthRoute />;
+  if (notFound) return <MediaNotfound mediaType="Movie" />;
 
   const { poster, banner, video, language } = movie;
   const { title, tagline, overview, genres } = movie;
