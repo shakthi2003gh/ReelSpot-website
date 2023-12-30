@@ -12,6 +12,6 @@ export function getGenres() {
 
         resolve(genres);
       })
-      .catch(() => reject());
+      .catch(reject);
   });
 }

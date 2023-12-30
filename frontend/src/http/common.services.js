@@ -1,9 +1,8 @@
-import { toast } from "react-toastify";
 import { Provider as http } from "./provider";
+import { ErrorHandler } from "../error/handler";
 
 const TOKEN = import.meta.env.VITE_TOKEN;
 
-const theme = () => localStorage.getItem(import.meta.env.VITE_THEME);
 const getOptions = () => ({
   headers: {
     accept: "application/json",
@@ -18,12 +17,7 @@ export function getData(endpoint, options = getOptions()) {
       .then((res) => {
         resolve(res.data);
       })
-      .catch((e) => {
-        const message = e?.response?.data ?? e.message;
-
-        toast.error(message, { theme: theme() });
-        reject(message);
-      });
+      .catch((e) => ErrorHandler.handle(e, reject));
   });
 }
 
@@ -34,12 +28,7 @@ export function postData(endpoint, payload = {}, options = getOptions()) {
       .then((res) => {
         resolve(res.data);
       })
-      .catch((e) => {
-        const message = e?.response?.data ?? e.message;
-
-        toast.error(message, { theme: theme() });
-        reject(message);
-      });
+      .catch((e) => ErrorHandler.handle(e, reject));
   });
 }
 
@@ -50,11 +39,6 @@ export function deleteData(endpoint, options = getOptions()) {
       .then((res) => {
         resolve(res.data);
       })
-      .catch((e) => {
-        const message = e?.response?.data ?? e.message;
-
-        toast.error(message, { theme: theme() });
-        reject(message);
-      });
+      .catch((e) => ErrorHandler.handle(e, reject));
   });
 }

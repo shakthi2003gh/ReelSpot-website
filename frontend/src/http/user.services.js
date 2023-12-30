@@ -1,13 +1,12 @@
 import { Provider as http } from "./provider";
 import { getData, deleteData } from "./common.services";
-import { toast } from "react-toastify";
+import { ErrorHandler } from "../error/handler";
 
 const TOKEN = import.meta.env.VITE_TOKEN;
-const theme = () => localStorage.getItem(import.meta.env.VITE_THEME);
 
 function postTemplate(path) {
   return function (payload) {
-    return new Promise(async (resolve) => {
+    return new Promise(async (resolve, reject) => {
       http
         .post(path, payload)
         .then((res) => {
@@ -16,12 +15,7 @@ function postTemplate(path) {
 
           resolve(res.data);
         })
-        .catch((e) => {
-          const message = e?.response?.data ?? e.message;
-
-          toast.error(message, { theme: theme() });
-          reject(message);
-        });
+        .catch((e) => ErrorHandler.handle(e, reject));
     });
   };
 }
