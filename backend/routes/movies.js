@@ -23,6 +23,8 @@ router.get("/", async (_, res) => {
   res.send(page.movies);
 });
 
+router.use(auth);
+
 router.get("/:movie_id", validateObjectId, async (req, res) => {
   const id = req.params.movie_id;
   const tmdb_id = req.tmdb_ids?.movie_id;
@@ -43,8 +45,7 @@ router.get("/:movie_id/casts", validateObjectId, async (req, res) => {
   res.send(movie.casts);
 });
 
-const args = [validateObjectId, auth];
-router.post("/:movie_id/favorite", ...args, async (req, res) => {
+router.post("/:movie_id/favorite", validateObjectId, async (req, res) => {
   const id = req.params.movie_id;
   const tmdb_id = req.tmdb_ids?.movie_id;
   const mediaType = "movie";
@@ -64,7 +65,7 @@ router.post("/:movie_id/favorite", ...args, async (req, res) => {
   res.send(data);
 });
 
-router.delete("/:movie_id/unfavorite", ...args, async (req, res) => {
+router.delete("/:movie_id/unfavorite", validateObjectId, async (req, res) => {
   const id = req.params.movie_id;
   const tmdb_id = req.tmdb_ids?.movie_id;
   const mediaType = "movie";
@@ -84,7 +85,7 @@ router.delete("/:movie_id/unfavorite", ...args, async (req, res) => {
   res.send(data);
 });
 
-router.post("/:movie_id/watchlist", ...args, async (req, res) => {
+router.post("/:movie_id/watchlist", validateObjectId, async (req, res) => {
   const id = req.params.movie_id;
   const tmdb_id = req.tmdb_ids?.movie_id;
   const mediaType = "movie";
@@ -104,7 +105,7 @@ router.post("/:movie_id/watchlist", ...args, async (req, res) => {
   res.send(data);
 });
 
-router.delete("/:movie_id/unwatchlist", ...args, async (req, res) => {
+router.delete("/:movie_id/unwatchlist", validateObjectId, async (req, res) => {
   const id = req.params.movie_id;
   const tmdb_id = req.tmdb_ids?.movie_id;
   const mediaType = "movie";

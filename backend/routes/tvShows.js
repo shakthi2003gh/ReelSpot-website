@@ -23,6 +23,8 @@ router.get("/", async (_, res) => {
   res.send(page.tvShows);
 });
 
+router.use(auth);
+
 router.get("/:tvshow_id", validateObjectId, async (req, res) => {
   const id = req.params.tvshow_id;
   const tmdb_id = req.tmdb_ids?.tvshow_id;
@@ -63,8 +65,7 @@ router.get("/:tvshow_id/seasons", validateObjectId, async (req, res) => {
   res.send(tvshow.seasons);
 });
 
-const favoriteArgs = [validateObjectId, auth];
-router.post("/:tvshow_id/favorite", ...favoriteArgs, async (req, res) => {
+router.post("/:tvshow_id/favorite", validateObjectId, async (req, res) => {
   const id = req.params.tvshow_id;
   const tmdb_id = req.tmdb_ids?.tvshow_id;
   const mediaType = "tvshow";
@@ -83,8 +84,7 @@ router.post("/:tvshow_id/favorite", ...favoriteArgs, async (req, res) => {
 
   res.send(data);
 });
-
-router.delete("/:tvshow_id/unfavorite", ...favoriteArgs, async (req, res) => {
+router.delete("/:tvshow_id/unfavorite", validateObjectId, async (req, res) => {
   const id = req.params.tvshow_id;
   const tmdb_id = req.tmdb_ids?.tvshow_id;
   const mediaType = "tvshow";
@@ -105,8 +105,7 @@ router.delete("/:tvshow_id/unfavorite", ...favoriteArgs, async (req, res) => {
 
   res.send(data);
 });
-
-router.post("/:tvshow_id/watchlist", ...favoriteArgs, async (req, res) => {
+router.post("/:tvshow_id/watchlist", validateObjectId, async (req, res) => {
   const id = req.params.tvshow_id;
   const tmdb_id = req.tmdb_ids?.tvshow_id;
   const mediaType = "tvshow";
@@ -125,8 +124,7 @@ router.post("/:tvshow_id/watchlist", ...favoriteArgs, async (req, res) => {
 
   res.send(data);
 });
-
-router.delete("/:tvshow_id/unwatchlist", ...favoriteArgs, async (req, res) => {
+router.delete("/:tvshow_id/unwatchlist", validateObjectId, async (req, res) => {
   const id = req.params.tvshow_id;
   const tmdb_id = req.tmdb_ids?.tvshow_id;
   const mediaType = "tvshow";

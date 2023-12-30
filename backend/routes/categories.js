@@ -1,4 +1,5 @@
 const express = require("express");
+const { auth } = require("../middleware/auth");
 const { fetchCategoryData } = require("../helper/categories");
 
 const router = express.Router();
@@ -10,6 +11,8 @@ const controller = (path) => async (req, res) => {
 
   res.send(data);
 };
+
+router.use(auth);
 
 router.get("/discover/movies", controller("/discover/movie?page="));
 router.get("/trending/movies", controller("/trending/movie/day"));
