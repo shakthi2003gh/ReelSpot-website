@@ -8,10 +8,11 @@ import { useData } from "../state/data";
 import useMediaQuery from "./../hooks/useMediaQuery";
 
 export default function Banner({ recommends }) {
-  if (!recommends?.length) return;
-
+  const [isLoading, setLoading] = useState(true);
   const [index, setIndex] = useState(0);
   const isDisplayLarge = useMediaQuery(780);
+
+  if (!recommends?.length) return <div className="banner-loading"></div>;
 
   const { id, mediaType } = recommends[index];
   const type = mediaType === "movie" ? "movies" : "tvshows";
@@ -27,7 +28,7 @@ export default function Banner({ recommends }) {
     return { id, banner: data.banner };
   });
 
-  if (!data) return;
+  if (!data) return <div className="banner-loading "></div>;
 
   const { _id, tmdb_id, title, banner } = data;
   const { runtime, genres, release_date } = data;
@@ -67,12 +68,8 @@ export default function Banner({ recommends }) {
     else addInWatchlist(id, mediaType);
   };
 
-  if (!banner)
-    return (
-      <div className="banner">
-        <div className="poster"></div>
-      </div>
-    );
+  if (isLoading && banner) setLoading(false);
+  if (isLoading) return <div className="banner-loading "></div>;
 
   return (
     <div className="banner">

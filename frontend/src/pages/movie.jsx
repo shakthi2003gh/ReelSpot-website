@@ -1,23 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useData } from "../state/data";
 import { useController } from "../state/index";
+import DetailsPageLoading from "../layouts/detailsPageLoading";
 import InteractActions from "../layouts/interactActions";
 import Casts from "../layouts/casts";
 import VideoPlayer from "../components/videoContainer";
 import Pagination from "../components/Pagination";
+import MediaNotfound from "./mediaNotfound";
 
 export default function MoviePage() {
   const { id } = useParams();
+  const [isLoading, setLoading] = useState(true);
   const mediaType = "movies";
   const movie = useData(id, mediaType);
   const { checkMovieExist } = useController();
 
   useEffect(() => {
+    if (id === "not-found") return;
+
     checkMovieExist(id);
   }, [id]);
 
-  if (!movie) return <div>Not found with {id}</div>;
+  if (id === "not-found") return <MediaNotfound mediaType="Movie" />;
+  if (movie && isLoading) setLoading(false);
+  if (isLoading) return <DetailsPageLoading />;
 
   const { poster, banner, video, language } = movie;
   const { title, tagline, overview, genres } = movie;

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useController } from "../state";
@@ -6,6 +6,7 @@ import { getUser } from "../state/user";
 import { useData } from "../state/data";
 
 export default function Card({ id, mediaType }) {
+  const [isLoading, setLoading] = useState(true);
   const navigate = useNavigate();
   const type = mediaType === "movie" ? "movies" : "tvshows";
 
@@ -23,7 +24,15 @@ export default function Card({ id, mediaType }) {
     else checkTvshowExist(id);
   }, [id, mediaType]);
 
-  if (!data) return <div>loading...</div>;
+  if (data && isLoading) setLoading(false);
+  if (isLoading)
+    return (
+      <div className="card-loading">
+        <div className="poster"></div>
+        <div className="title"></div>
+        <div className="overview"></div>
+      </div>
+    );
 
   const to = `/${type}/${id}`;
   const { poster, title, tagline, favorite } = data;

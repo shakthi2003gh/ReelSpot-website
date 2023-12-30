@@ -16,7 +16,14 @@ export function getUser() {
   return user;
 }
 
+export function getAppLoading() {
+  const { isLoading } = useContext(UserContext);
+
+  return isLoading;
+}
+
 export default function UserProvider({ children }) {
+  const [isLoading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -126,13 +133,16 @@ export default function UserProvider({ children }) {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem(TOKEN)) return;
+    if (!localStorage.getItem(TOKEN)) return setLoading(false);
 
-    verifyUser().then(setUser);
+    verifyUser()
+      .then(setUser)
+      .finally(() => setLoading(false));
   }, []);
 
   const value = {
     user,
+    isLoading,
     loginUser,
     logoutUser,
     signupUser,

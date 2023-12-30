@@ -1,27 +1,34 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useData } from "../state/data";
 import { useController } from "../state/index";
 import useMediaQuery from "../hooks/useMediaQuery";
+import DetailsPageLoading from "../layouts/detailsPageLoading";
 import InteractActions from "../layouts/interactActions";
 import Casts from "../layouts/casts";
 import Seasons from "../layouts/seasons";
 import VideoPlayer from "../components/videoContainer";
 import Pagination from "../components/Pagination";
+import MediaNotfound from "./mediaNotfound";
 
 export default function TvshowPage() {
   const { id } = useParams();
+  const [isLoading, setLoading] = useState(true);
   const mediaType = "tvshows";
   const tvshow = useData(id, mediaType);
   const { checkTvshowExist, checkTvshowSeasonsExist } = useController();
   const isLargeDevice = useMediaQuery(1250);
 
   useEffect(() => {
+    if (id === "not-found") return;
+
     checkTvshowExist(id);
     if (!!tvshow?._id) checkTvshowSeasonsExist(tvshow?._id);
   }, [id]);
 
-  if (!tvshow) return <div>Not found with {id}</div>;
+  if (id === "not-found") return <MediaNotfound mediaType="Tvshow" />;
+  if (tvshow && isLoading) setLoading(false);
+  if (isLoading) return <DetailsPageLoading />;
 
   const { poster, banner, video, language } = tvshow;
   const { title, tagline, overview, genres, seasons } = tvshow;

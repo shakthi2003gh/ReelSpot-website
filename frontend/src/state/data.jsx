@@ -44,21 +44,30 @@ export default function DataProvider({ children }) {
     const movie = movies[id];
     if (movie) return;
 
-    fetchMovie(id).then((data) => {
-      setMovies((prev) => ({ ...prev, [data._id]: data }));
+    fetchMovie(id)
+      .then((data) => {
+        setMovies((prev) => ({ ...prev, [data._id]: data }));
 
-      if (id !== data._id) navigate("/movies/" + data._id, { replace: true });
-    });
+        if (id !== data._id) navigate("/movies/" + data._id, { replace: true });
+      })
+      .catch(() => {
+        navigate("/movies/not-found", { replace: true });
+      });
   };
 
   const checkTvshowExist = async (id) => {
     const tvshow = tvshows[id];
     if (tvshow) return;
 
-    fetchTvshow(id).then((data) => {
-      setTvshows((prev) => ({ ...prev, [data._id]: data }));
-      if (id !== data._id) navigate("/tvshows/" + data._id, { replace: true });
-    });
+    fetchTvshow(id)
+      .then((data) => {
+        setTvshows((prev) => ({ ...prev, [data._id]: data }));
+        if (id !== data._id)
+          navigate("/tvshows/" + data._id, { replace: true });
+      })
+      .catch(() => {
+        navigate("/tvshows/not-found", { replace: true });
+      });
   };
 
   const checkTvshowSeasonsExist = (id) => {

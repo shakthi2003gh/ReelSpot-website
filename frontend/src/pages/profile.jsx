@@ -43,9 +43,19 @@ export default function Profile() {
         </div>
       </div>
 
-      <CardSection title="favorites" to="/favorites" data={user.favorites} />
+      <CardSection
+        title="favorites"
+        to="/favorites"
+        data={user.favorites}
+        notFoundMessage={"Add movie/tvshow to favorite"}
+      />
 
-      <CardSection title="watchlist" to="/watchlist" data={user.watchlist} />
+      <CardSection
+        title="watchlist"
+        to="/watchlist"
+        data={user.watchlist}
+        notFoundMessage={"Add movie/tvshow to watchlist"}
+      />
     </div>
   );
 }

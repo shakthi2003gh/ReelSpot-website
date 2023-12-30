@@ -37,9 +37,10 @@ export default function Movies() {
     },
   ];
 
-  if (!movies) return <div></div>;
-
   return (
-    <LandingPage recommends={movies.trending.slice(0, 3)} sections={sections} />
+    <LandingPage
+      recommends={movies?.trending.slice(0, 3)}
+      sections={sections}
+    />
   );
 }

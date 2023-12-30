@@ -31,11 +31,9 @@ export default function Tvshows() {
     },
   ];
 
-  if (!tvshows) return <div></div>;
-
   return (
     <LandingPage
-      recommends={tvshows.trending.slice(0, 3)}
+      recommends={tvshows?.trending.slice(0, 3)}
       sections={sections}
     />
   );

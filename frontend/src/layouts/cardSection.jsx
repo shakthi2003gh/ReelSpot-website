@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import RenderCards from "../components/renderCards";
 
-export default function CardSection({ title, to, data }) {
+export default function CardSection({ title, to, data, notFoundMessage }) {
   return (
     <section className="card-section">
       <div className="header">
@@ -21,7 +21,7 @@ export default function CardSection({ title, to, data }) {
         )}
       </div>
 
-      <RenderCards data={data} />
+      <RenderCards data={data} notFoundMessage={notFoundMessage} />
     </section>
   );
 }

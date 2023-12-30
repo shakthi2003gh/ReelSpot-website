@@ -1,10 +1,20 @@
 @use "../utilities/variable" as *;
 
+.card,
+.card-loading {
+  width: 120px;
+  border-radius: 8px;
+
+  .poster {
+    width: 100%;
+    aspect-ratio: 9/12;
+    border-radius: 8px;
+  }
+}
+
 .card {
   font-size: 0.8rem;
-  width: 120px;
   height: fit-content;
-  border-radius: 8px;
   overflow: hidden;
 
   &:is(:hover, :focus-visible) {
@@ -16,9 +26,7 @@
   .poster {
     display: grid;
     place-content: center;
-    width: 100%;
-    aspect-ratio: 9/12;
-    border-radius: 8px;
+    background-color: rgba(128, 128, 128, 0.3);
     overflow: hidden;
 
     img {
@@ -91,6 +99,39 @@
 
   @media (width >= $desktop-device) {
     font-size: 1.1rem;
+    width: 170px;
+  }
+}
+
+.card-loading {
+  flex-shrink: 0;
+
+  .poster,
+  .title,
+  .overview {
+    background-color: rgba(128, 128, 128, 0.3);
+  }
+
+  .title,
+  .overview {
+    height: 1rem;
+    margin-top: 10px;
+    border-radius: 4px;
+  }
+
+  .title {
+    width: 70%;
+  }
+
+  .overview {
+    width: 90%;
+  }
+
+  @media (width >= $tablet-device) {
+    width: 145px;
+  }
+
+  @media (width >= $desktop-device) {
     width: 170px;
   }
 }

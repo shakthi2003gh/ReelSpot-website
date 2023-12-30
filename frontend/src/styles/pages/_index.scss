@@ -1,4 +1,5 @@
 @use "../utilities/variable" as *;
+@forward "loadingPage";
 @forward "404";
 @forward "auth";
 @forward "profile";
@@ -6,6 +7,7 @@
 @forward "movie";
 @forward "tvshow";
 @forward "category";
+@forward "mediaNotFound";
 
 .page {
   display: flex;

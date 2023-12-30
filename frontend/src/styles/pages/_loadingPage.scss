@@ -1,0 +1,18 @@
+@use "../utilities/variable" as *;
+
+.loading-page {
+  display: grid;
+  place-content: center;
+  place-items: center;
+  height: calc(100dvh - 43.25px);
+
+  .message {
+    font-size: 1.2rem;
+    font-family: var(--ff-inter);
+    margin-top: 1rem;
+  }
+
+  @media (width >= $desktop-device) {
+    height: calc(100dvh - 58px);
+  }
+}

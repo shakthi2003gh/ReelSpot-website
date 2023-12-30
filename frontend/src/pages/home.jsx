@@ -29,9 +29,7 @@ export default function Home() {
     },
   ];
 
-  if (!home) return <div></div>;
-
   return (
-    <LandingPage recommends={home.trending?.slice(0, 3)} sections={sections} />
+    <LandingPage recommends={home?.trending?.slice(0, 3)} sections={sections} />
   );
 }
