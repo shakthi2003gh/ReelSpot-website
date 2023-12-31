@@ -27,15 +27,14 @@ export default function TvshowPage() {
   useEffect(() => {
     setLoading(true);
 
-    checkTvshowExist(id)
-      .then(() => setNotFound(false))
+    checkTvshowExist(id, true)
+      .then((id) => {
+        if (id) checkTvshowSeasonsExist(id);
+        setNotFound(false);
+      })
       .catch(() => setNotFound(true))
       .finally(() => setLoading(false));
   }, [id]);
-
-  useEffect(() => {
-    if (tvshow) checkTvshowSeasonsExist(tvshow?._id);
-  }, [tvshow]);
 
   if (isLoading) return <DetailsPageLoading />;
   if (notFound && !user) return <AuthRoute />;

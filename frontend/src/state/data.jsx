@@ -40,10 +40,12 @@ export default function DataProvider({ children }) {
   const [genres, setGenres] = useState({});
   const navigate = useNavigate();
 
-  const checkMovieExist = async (id) => {
+  const checkMovieExist = async (id, cachedCheck = false) => {
     return new Promise((resolve, reject) => {
       const movie = movies[id];
-      if (movie) return resolve();
+      const checkCachedId = cachedCheck ? !!movie?._id : true;
+
+      if (movie && checkCachedId) return resolve();
 
       fetchMovie(id)
         .then((data) => {
@@ -58,10 +60,12 @@ export default function DataProvider({ children }) {
     });
   };
 
-  const checkTvshowExist = async (id) => {
+  const checkTvshowExist = async (id, cachedCheck = false) => {
     return new Promise((resolve, reject) => {
       const tvshow = tvshows[id];
-      if (tvshow) return resolve();
+      const checkCachedId = cachedCheck ? !!tvshow?._id : true;
+
+      if (tvshow && checkCachedId) return resolve(tvshow._id);
 
       fetchTvshow(id)
         .then((data) => {
@@ -70,7 +74,7 @@ export default function DataProvider({ children }) {
           if (id !== data._id)
             navigate("/tvshows/" + data._id, { replace: true });
 
-          resolve();
+          resolve(data._id);
         })
         .catch(() => reject());
     });

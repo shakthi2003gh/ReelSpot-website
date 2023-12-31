@@ -24,7 +24,7 @@ export default function MoviePage() {
   useEffect(() => {
     setLoading(true);
 
-    checkMovieExist(id)
+    checkMovieExist(id, true)
       .then(() => setNotFound(false))
       .catch(() => setNotFound(true))
       .finally(() => setLoading(false));
