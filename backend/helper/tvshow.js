@@ -1,7 +1,7 @@
 const { Provider: http } = require("../http/provider");
 const { TvShow } = require("../models/tvShow");
 const { getImgUrl, getVideo, fetchData } = require("./common");
-const { searchData, getCachedDataId } = require("./common");
+const { cachedData, getCachedDataId } = require("./common");
 const { transformCast } = require("./actor");
 const { getGenreIds } = require("./genre");
 
@@ -79,6 +79,6 @@ async function fetchTvShowSeasonsData(tmdb_id, total_seasons) {
 module.exports = {
   fetchTvShow,
   fetchTvShowSeasonsData,
-  searchTvShow: searchData(TvShow, fetchTvShow),
+  cachedTvshow: cachedData(TvShow, fetchTvShow),
   getCachedTvShowId: getCachedDataId(TvShow, fetchTvShow),
 };

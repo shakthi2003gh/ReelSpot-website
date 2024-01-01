@@ -41,7 +41,7 @@ function fetchData(endpoint, Model, transform) {
   };
 }
 
-function searchData(Model, fetch) {
+function cachedData(Model, fetch) {
   return async function (tmdb_id) {
     const isDataExist = await Model.findOne({ tmdb_id });
     if (isDataExist) return isDataExist;
@@ -71,6 +71,6 @@ module.exports = {
   getImgUrl,
   getVideo,
   fetchData,
-  searchData,
+  cachedData,
   getCachedDataId,
 };

@@ -1,6 +1,6 @@
 const { Movie } = require("../models/movie");
 const { getImgUrl, getVideo, fetchData } = require("./common");
-const { getCachedDataId, searchData } = require("./common");
+const { getCachedDataId, cachedData } = require("./common");
 const { transformCast } = require("./actor");
 const { getGenreIds } = require("./genre");
 
@@ -38,6 +38,6 @@ async function fetchMovie(tmdb_id) {
 
 module.exports = {
   fetchMovie,
-  searchMovie: searchData(Movie, fetchMovie),
+  cachedMovie: cachedData(Movie, fetchMovie),
   getCachedMovieId: getCachedDataId(Movie, fetchMovie),
 };

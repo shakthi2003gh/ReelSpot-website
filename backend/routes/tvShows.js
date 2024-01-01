@@ -5,7 +5,7 @@ const { TvShow } = require("../models/tvShow");
 const { auth } = require("../middleware/auth");
 const { validateObjectId } = require("../middleware/validateObjectId");
 const { getPageID } = require("../helper/page");
-const { searchTvShow, fetchTvShowSeasonsData } = require("../helper/tvshow");
+const { cachedTvshow, fetchTvShowSeasonsData } = require("../helper/tvshow");
 
 const router = express.Router();
 
@@ -29,7 +29,7 @@ router.get("/:tvshow_id", validateObjectId, async (req, res) => {
   const id = req.params.tvshow_id;
   const tmdb_id = req.tmdb_ids?.tvshow_id;
 
-  const tvShow = id ? await TvShow.findById(id) : await searchTvShow(tmdb_id);
+  const tvShow = id ? await TvShow.findById(id) : await cachedTvshow(tmdb_id);
   if (!tvShow) return res.status(404).send("TvShow not found");
 
   res.send(tvShow);
@@ -39,7 +39,7 @@ router.get("/:tvshow_id/casts", validateObjectId, async (req, res) => {
   const id = req.params.tvshow_id;
   const tmdb_id = req.tmdb_ids?.tvshow_id;
 
-  const tvShow = id ? await TvShow.findById(id) : await searchTvShow(tmdb_id);
+  const tvShow = id ? await TvShow.findById(id) : await cachedTvshow(tmdb_id);
   if (!tvShow) return res.status(404).send("TvShow not found");
 
   res.send(tvShow.casts);
@@ -49,7 +49,7 @@ router.get("/:tvshow_id/seasons", validateObjectId, async (req, res) => {
   const id = req.params.tvshow_id;
   const tmdb_id = req.tmdb_ids?.tvshow_id;
 
-  const tvShow = id ? await TvShow.findById(id) : await searchTvShow(tmdb_id);
+  const tvShow = id ? await TvShow.findById(id) : await cachedTvshow(tmdb_id);
   if (!tvShow) return res.status(404).send("TvShow not found");
 
   if (!!tvShow.seasons?.length) return res.send(tvShow.seasons);
@@ -70,7 +70,7 @@ router.post("/:tvshow_id/favorite", validateObjectId, async (req, res) => {
   const tmdb_id = req.tmdb_ids?.tvshow_id;
   const mediaType = "tvshow";
 
-  const tvShow = id ? await TvShow.findById(id) : await searchTvShow(tmdb_id);
+  const tvShow = id ? await TvShow.findById(id) : await cachedTvshow(tmdb_id);
   if (!tvShow) return res.status(404).send("Tvshow not found");
 
   const isAlreadyFavorite = req.user.favorites?.some((data) => {
@@ -89,7 +89,7 @@ router.delete("/:tvshow_id/unfavorite", validateObjectId, async (req, res) => {
   const tmdb_id = req.tmdb_ids?.tvshow_id;
   const mediaType = "tvshow";
 
-  const tvShow = id ? await TvShow.findById(id) : await searchTvShow(tmdb_id);
+  const tvShow = id ? await TvShow.findById(id) : await cachedTvshow(tmdb_id);
   if (!tvShow) return res.status(404).send("Tvshow not found");
 
   const isNotFavorite = req.user.favorites?.every((data) => {
@@ -110,7 +110,7 @@ router.post("/:tvshow_id/watchlist", validateObjectId, async (req, res) => {
   const tmdb_id = req.tmdb_ids?.tvshow_id;
   const mediaType = "tvshow";
 
-  const tvShow = id ? await TvShow.findById(id) : await searchTvShow(tmdb_id);
+  const tvShow = id ? await TvShow.findById(id) : await cachedTvshow(tmdb_id);
   if (!tvShow) return res.status(404).send("Tvshow not found");
 
   const isAlreadyWatchlist = req.user.watchlist?.some((data) => {
@@ -129,7 +129,7 @@ router.delete("/:tvshow_id/unwatchlist", validateObjectId, async (req, res) => {
   const tmdb_id = req.tmdb_ids?.tvshow_id;
   const mediaType = "tvshow";
 
-  const tvShow = id ? await TvShow.findById(id) : await searchTvShow(tmdb_id);
+  const tvShow = id ? await TvShow.findById(id) : await cachedTvshow(tmdb_id);
   if (!tvShow) return res.status(404).send("Tvshow not found");
 
   const isNotInWatchlist = req.user.watchlist?.every((data) => {

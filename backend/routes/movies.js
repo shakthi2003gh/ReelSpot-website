@@ -5,7 +5,7 @@ const { Movie } = require("../models/movie");
 const { auth } = require("../middleware/auth");
 const { validateObjectId } = require("../middleware/validateObjectId");
 const { getPageID } = require("../helper/page");
-const { searchMovie } = require("../helper/movie");
+const { cachedMovie } = require("../helper/movie");
 
 const router = express.Router();
 
@@ -29,7 +29,7 @@ router.get("/:movie_id", validateObjectId, async (req, res) => {
   const id = req.params.movie_id;
   const tmdb_id = req.tmdb_ids?.movie_id;
 
-  const movie = id ? await Movie.findById(id) : await searchMovie(tmdb_id);
+  const movie = id ? await Movie.findById(id) : await cachedMovie(tmdb_id);
   if (!movie) return res.status(404).send("Movie not found");
 
   res.send(movie);
@@ -39,7 +39,7 @@ router.get("/:movie_id/casts", validateObjectId, async (req, res) => {
   const id = req.params.movie_id;
   const tmdb_id = req.tmdb_ids?.movie_id;
 
-  const movie = id ? await Movie.findById(id) : await searchMovie(tmdb_id);
+  const movie = id ? await Movie.findById(id) : await cachedMovie(tmdb_id);
   if (!movie) return res.status(404).send("Movie not found");
 
   res.send(movie.casts);
@@ -50,7 +50,7 @@ router.post("/:movie_id/favorite", validateObjectId, async (req, res) => {
   const tmdb_id = req.tmdb_ids?.movie_id;
   const mediaType = "movie";
 
-  const movie = id ? await Movie.findById(id) : await searchMovie(tmdb_id);
+  const movie = id ? await Movie.findById(id) : await cachedMovie(tmdb_id);
   if (!movie) return res.status(404).send("Movie not found");
 
   const isAlreadyFavorite = req.user.favorites?.some((data) => {
@@ -70,7 +70,7 @@ router.delete("/:movie_id/unfavorite", validateObjectId, async (req, res) => {
   const tmdb_id = req.tmdb_ids?.movie_id;
   const mediaType = "movie";
 
-  const movie = id ? await Movie.findById(id) : await searchMovie(tmdb_id);
+  const movie = id ? await Movie.findById(id) : await cachedMovie(tmdb_id);
   if (!movie) return res.status(404).send("Movie not found");
 
   const isNotFavorite = req.user.favorites?.every((data) => {
@@ -90,7 +90,7 @@ router.post("/:movie_id/watchlist", validateObjectId, async (req, res) => {
   const tmdb_id = req.tmdb_ids?.movie_id;
   const mediaType = "movie";
 
-  const movie = id ? await Movie.findById(id) : await searchMovie(tmdb_id);
+  const movie = id ? await Movie.findById(id) : await cachedMovie(tmdb_id);
   if (!movie) return res.status(404).send("Movie not found");
 
   const isAlreadyWatchlist = req.user.watchlist?.some((data) => {
@@ -110,7 +110,7 @@ router.delete("/:movie_id/unwatchlist", validateObjectId, async (req, res) => {
   const tmdb_id = req.tmdb_ids?.movie_id;
   const mediaType = "movie";
 
-  const movie = id ? await Movie.findById(id) : await searchMovie(tmdb_id);
+  const movie = id ? await Movie.findById(id) : await cachedMovie(tmdb_id);
   if (!movie) return res.status(404).send("Movie not found");
 
   const isNotInWatchlist = req.user.watchlist?.every((data) => {
