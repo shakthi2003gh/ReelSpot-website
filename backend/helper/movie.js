@@ -26,6 +26,7 @@ async function transform(data) {
     runtime,
     release_date,
     language: original_language,
+    type: "movie",
     casts,
   };
 }

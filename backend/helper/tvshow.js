@@ -51,6 +51,7 @@ async function transformTvShow(data) {
     language: original_language,
     total_seasons: number_of_seasons,
     total_episodes: number_of_episodes,
+    type: "tvshow",
     casts,
   };
 }
