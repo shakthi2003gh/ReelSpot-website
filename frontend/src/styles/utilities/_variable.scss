@@ -9,7 +9,7 @@
   --clr-dark-400: rgba(21, 20, 20, 0.7);
 
   --border: rgba(191, 191, 191, 1);
-  --bg-transperent: rgba(205, 205, 205, 0.22);
+  --bg-transperent: rgba(205, 205, 205, 0.4);
 
   --clr-text-700: var(--clr-dark-700);
   --clr-text-400: var(--clr-dark-400);
@@ -23,6 +23,7 @@
   --clr-text-700: var(--clr-white-700);
   --clr-text-400: var(--clr-white-400);
   --bg: var(--clr-dark-700);
+  --bg-transperent: rgba(205, 205, 205, 0.22);
 }
 
 $tablet-device: 500px;

@@ -3,6 +3,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { MdMenu } from "react-icons/md";
 import { useController, useFetch } from "../state";
 import { getUser } from "../state/user";
+import Search from "./../components/search";
 
 export default function Header() {
   const user = getUser();
@@ -31,6 +32,8 @@ export default function Header() {
             <img src={`/logo-${theme}.svg`} alt="Home" />
           </Link>
         </div>
+
+        {isNotMobileDevice && <Search />}
 
         {user ? (
           <Link to="/profile" className="profile">

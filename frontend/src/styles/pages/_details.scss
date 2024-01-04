@@ -27,14 +27,6 @@
   flex-direction: column;
   gap: 1rem;
 
-  [theme="light"] & {
-    --bg-transperent: rgba(241, 241, 241, 0.9);
-
-    .btn--transperent {
-      color: var(--clr-text-700);
-    }
-  }
-
   h1,
   h2 {
     font-size: 1.1em;

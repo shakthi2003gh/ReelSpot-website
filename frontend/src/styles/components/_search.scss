@@ -1,0 +1,149 @@
+@use "../utilities/variable" as *;
+
+.search {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 5px;
+  opacity: 0.8;
+
+  &:is(:hover, :focus-within) {
+    opacity: 1;
+
+    .clear {
+      opacity: 1 !important;
+    }
+  }
+
+  &:focus-within {
+    .suggestions {
+      display: flex;
+      height: auto;
+    }
+  }
+
+  .search__input-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 7px;
+    border-radius: 5px;
+    color: var(--clr-text-700);
+    background-color: var(--bg-transperent);
+
+    svg {
+      flex-shrink: 0;
+      font-size: 1.2em;
+
+      &.clear {
+        cursor: pointer;
+        outline: none;
+        opacity: 0;
+
+        &:focus-visible {
+          outline: 1px dashed;
+        }
+      }
+    }
+
+    input {
+      width: 100%;
+      min-width: 100px;
+      border: none;
+      color: inherit;
+      background-color: transparent;
+
+      &::placeholder {
+        color: var(--clr-text-400);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .suggestions {
+    position: absolute;
+    display: none;
+    height: 0;
+    flex-direction: column;
+    gap: 0.1rem;
+    width: 100%;
+    margin-top: 0.5rem;
+    overflow: hidden;
+    z-index: 245;
+
+    .suggestion {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.4rem;
+      border-radius: 8px;
+      background-color: var(--bg);
+      isolation: isolate;
+
+      &::before {
+        position: absolute;
+        inset: 0;
+        content: "";
+        border-radius: 8px;
+        background-color: var(--bg-transperent);
+        z-index: -5454;
+      }
+
+      .poster {
+        flex-shrink: 0;
+        width: 40px;
+        height: 60px;
+        border-radius: 4px;
+        background-color: rgba(128, 128, 128, 0.3);
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .details {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .title,
+      .type {
+        text-wrap: nowrap;
+        text-overflow: ellipsis;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .title {
+        text-decoration: none;
+        color: var(--clr-text-700);
+        outline: none;
+      }
+
+      .type {
+        font-size: 0.8em;
+        opacity: 0.6;
+      }
+    }
+  }
+
+  @media (min-width: $desktop-device) {
+    font-size: 1.2rem;
+    max-width: 400px;
+
+    .search__input-group {
+      padding: 7px 8px;
+      border-radius: 6px;
+    }
+  }
+}

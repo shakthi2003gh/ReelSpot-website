@@ -52,6 +52,10 @@
     color: var(--clr-white-700);
     background: var(--bg-transperent);
 
+    [theme="light"] & {
+      color: var(--clr-text-700);
+    }
+
     &:is(:hover, :focus-visible) {
       opacity: 1;
     }

@@ -80,6 +80,10 @@
       display: flex;
       gap: 1em;
       margin-top: 1em;
+
+      .btn--transperent {
+        color: var(--clr-white-700);
+      }
     }
 
     @media (width >= $tablet-device) {
