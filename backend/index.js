@@ -15,6 +15,7 @@ const { genres } = require("./routes/genres");
 const { movies } = require("./routes/movies");
 const { tvShows } = require("./routes/tvShows");
 const { categories } = require("./routes/categories");
+const { resource } = require("./routes/resource");
 const error = require("./middleware/error");
 
 const options = {
@@ -39,6 +40,7 @@ mongoose
 
 app.use(cors(options));
 app.use(bodyParser.json());
+app.use("/api/resource", resource);
 app.use("/api/categories", categories);
 app.use("/api/tvshows", tvShows);
 app.use("/api/movies", movies);
