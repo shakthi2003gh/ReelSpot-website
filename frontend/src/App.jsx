@@ -13,6 +13,7 @@ import WatchList from "./pages/watchlist";
 import MoviePage from "./pages/movie";
 import TvshowPage from "./pages/tvshow";
 import Category from "./pages/category";
+import Search from "./pages/search";
 import Loading from "./pages/loading";
 import PageNotFound from "./pages/404";
 
@@ -32,6 +33,7 @@ function App() {
           {!isMobileDevice && <SideBar />}
 
           <Routes>
+            <Route path="/search" element={<Search />} />
             <Route path="/watchlist" element={<WatchList />} />
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/tvshows/category/:category" element={<Category />} />

@@ -21,7 +21,7 @@ export default function TvshowPage() {
   const isLargeDevice = useMediaQuery(1250);
 
   const user = getUser();
-  const tvshow = useData(id, mediaType);
+  const tvshow = useData(id, mediaType) || {};
   const { checkTvshowExist, checkTvshowSeasonsExist } = useController();
 
   useEffect(() => {

@@ -18,7 +18,7 @@ export default function MoviePage() {
   const [notFound, setNotFound] = useState(false);
 
   const user = getUser();
-  const movie = useData(id, mediaType);
+  const movie = useData(id, mediaType) || {};
   const { checkMovieExist } = useController();
 
   useEffect(() => {

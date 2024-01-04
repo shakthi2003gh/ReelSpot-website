@@ -7,6 +7,8 @@
     }
 
     .casts {
+      display: flex;
+      flex-direction: column;
       height: calc(100% - 1.5rem - 30px);
       padding-right: 10px;
       overflow: hidden auto;

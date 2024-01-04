@@ -6,10 +6,14 @@ import { MdLocalMovies, MdOutlineLocalMovies } from "react-icons/md";
 import { PiTelevision, PiTelevisionFill } from "react-icons/pi";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
+import { MdSearch } from "react-icons/md";
+import { BiSolidSearchAlt2 } from "react-icons/bi";
+import { RiUser3Fill, RiUser3Line } from "react-icons/ri";
 
 export default function NavLinks() {
-  const { isTablet, isDesktop } = useFetch((state) => state.mediaQuery);
+  const { mediaQuery } = useFetch((state) => state);
   const { toggleMenuOpen } = useController();
+  const { isMobile, isTablet, isDesktop } = mediaQuery;
 
   const links = [
     {
@@ -47,7 +51,23 @@ export default function NavLinks() {
       IconFill: IoBookmark,
       to: "/watchlist",
     },
+    {
+      id: useId(),
+      label: "search",
+      Icon: MdSearch,
+      IconFill: BiSolidSearchAlt2,
+      to: "/search",
+    },
+    {
+      id: useId(),
+      label: "profile",
+      Icon: RiUser3Line,
+      IconFill: RiUser3Fill,
+      to: "/profile",
+    },
   ];
+
+  const filter = (_, i) => (isMobile ? ![3, 4].includes(i) : i < 5);
 
   const handleClick = () => {
     if (isTablet && !isDesktop) toggleMenuOpen();
@@ -55,7 +75,7 @@ export default function NavLinks() {
 
   return (
     <ul className="nav-links">
-      {links.map(({ id, label, to, Icon, IconFill }) => (
+      {links.filter(filter).map(({ id, label, to, Icon, IconFill }) => (
         <li key={id} onClick={handleClick}>
           <NavLink to={to}>
             <Icon />

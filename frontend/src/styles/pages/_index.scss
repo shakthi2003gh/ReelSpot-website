@@ -21,7 +21,8 @@
 }
 
 .favorite-page,
-.watchlist-page {
+.watchlist-page,
+.search-page {
   h1 {
     color: var(--clr-text-700);
   }
@@ -40,5 +41,16 @@
     @media (min-width: $desktop-device) {
       grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     }
+  }
+}
+
+.search-page {
+  h1 {
+    margin-top: 0;
+  }
+
+  .search {
+    max-width: 100%;
+    margin-bottom: 1rem;
   }
 }

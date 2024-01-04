@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { MdMenu } from "react-icons/md";
+import { GoSun, GoMoon } from "react-icons/go";
 import { useController, useFetch } from "../state";
 import { getUser } from "../state/user";
 import Search from "./../components/search";
@@ -8,7 +9,8 @@ import Search from "./../components/search";
 export default function Header() {
   const user = getUser();
   const { ui, mediaQuery } = useFetch((state) => state);
-  const { toggleMenuOpen } = useController();
+  const { toggleMenuOpen, toggleTheme } = useController();
+
   const { theme } = ui;
   const isNotMobileDevice = mediaQuery.isTablet;
 
@@ -36,9 +38,15 @@ export default function Header() {
         {isNotMobileDevice && <Search />}
 
         {user ? (
-          <Link to="/profile" className="profile">
-            <span className="name">{user.name}</span> <FaUserAlt />
-          </Link>
+          isNotMobileDevice ? (
+            <Link to="/profile" className="profile">
+              <span className="name">{user.name}</span> <FaUserAlt />
+            </Link>
+          ) : (
+            <button className="btn toggle" onClick={toggleTheme}>
+              {theme === "dark" ? <GoSun /> : <GoMoon />}
+            </button>
+          )
         ) : (
           <Link className="btn btn--primary" to="/auth?method=signin">
             Login
