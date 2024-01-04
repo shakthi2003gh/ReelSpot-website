@@ -21,7 +21,7 @@ export function useController() {
   const { loginUser, logoutUser, signupUser } = useContext(UserContext);
   const { addInFavorites, removeFromFavorites } = useContext(UserContext);
   const { addInWatchlist, removeFromWatchlist } = useContext(UserContext);
-  const { checkCategory } = useContext(PageContext);
+  const { checkCategory, searchData } = useContext(PageContext);
   const { checkMovieExist, checkTvshowExist } = useContext(DataContext);
   const { checkTvshowSeasonsExist } = useContext(DataContext);
   const { toggleTheme, toggleMenuOpen } = useContext(UIContext);
@@ -36,6 +36,7 @@ export function useController() {
     checkTvshowExist,
     checkTvshowSeasonsExist,
     checkCategory,
+    searchData,
     addInFavorites,
     removeFromFavorites,
     addInWatchlist,

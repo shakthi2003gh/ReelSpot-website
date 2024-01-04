@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { fetchPages } from "../http/page.services";
 import { fetchMoviesByCategory } from "../http/movie.services";
 import { fetchTvshowsByCategory } from "../http/tvshow.services";
+import { searchPage } from "../http/resource.services";
 import { DataContext } from "./data";
 
 export const PageContext = createContext(null);
@@ -66,6 +67,15 @@ export default function PageProvider({ children }) {
     });
   };
 
+  const searchData = async (query, page) => {
+    return await searchPage(query, page).then(({ ids, movies, tvshows }) => {
+      Movies((prev) => ({ ...prev, ...movies }));
+      Tvshows((prev) => ({ ...prev, ...tvshows }));
+
+      return ids;
+    });
+  };
+
   useEffect(() => {
     fetchPages().then(({ page, data }) => {
       const { home, movies, tvshows } = page;
@@ -85,6 +95,7 @@ export default function PageProvider({ children }) {
     tvshows,
     categories,
     checkCategory,
+    searchData,
   };
 
   return <PageContext.Provider value={value}>{children}</PageContext.Provider>;
