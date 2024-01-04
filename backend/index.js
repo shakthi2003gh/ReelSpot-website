@@ -29,7 +29,8 @@ mongoose
   .then(() => {
     console.log("Connect to MongoDB...");
 
-    app.listen(4000, "localhost", () => {
+    const PORT = process.env.PORT || 4000;
+    app.listen(PORT, () => {
       console.log("Listening on port 4000...");
     });
   })
