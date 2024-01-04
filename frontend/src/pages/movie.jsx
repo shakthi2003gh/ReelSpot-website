@@ -8,7 +8,7 @@ import DetailsPageLoading from "../layouts/detailsPageLoading";
 import InteractActions from "../layouts/interactActions";
 import Casts from "../layouts/casts";
 import VideoPlayer from "../components/videoContainer";
-import Pagination from "../components/Pagination";
+import Pagination from "../components/pagination";
 import MediaNotfound from "./mediaNotfound";
 
 export default function MoviePage() {

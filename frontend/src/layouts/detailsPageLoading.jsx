@@ -1,4 +1,4 @@
-import Pagination from "../components/Pagination";
+import Pagination from "../components/pagination";
 
 export default function DetailsPageLoading() {
   return (

@@ -10,7 +10,7 @@ import InteractActions from "../layouts/interactActions";
 import Casts from "../layouts/casts";
 import Seasons from "../layouts/seasons";
 import VideoPlayer from "../components/videoContainer";
-import Pagination from "../components/Pagination";
+import Pagination from "../components/pagination";
 import MediaNotfound from "./mediaNotfound";
 
 export default function TvshowPage() {

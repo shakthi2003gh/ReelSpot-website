@@ -1,6 +1,6 @@
 import { MdLocalMovies } from "react-icons/md";
 import { PiTelevision } from "react-icons/pi";
-import Pagination from "../components/Pagination";
+import Pagination from "../components/pagination";
 
 export default function MediaNotfound({ mediaType }) {
   return (

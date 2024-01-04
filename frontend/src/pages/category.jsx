@@ -3,7 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { useController } from "../state";
 import { getCategoryPage } from "../state/page";
 import { authRoute } from "./auth";
-import Pagination from "../components/Pagination";
+import Pagination from "../components/pagination";
 import RenderCards from "../components/renderCards";
 import PageNotFound from "./404";
 
