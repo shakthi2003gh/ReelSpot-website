@@ -8,7 +8,7 @@ import RenderCards from "../components/renderCards";
 import PageNotFound from "./404";
 
 const categories = ["discover", "trending", "popular", "top_rated", "upcoming"];
-function isInvalidCategory(category) {
+function isInvalidCategory(category, mediaType) {
   return (
     !categories.includes(category) ||
     (category === "upcoming" && mediaType === "tvshows")
@@ -26,7 +26,7 @@ function category() {
   const [isFetching, setIsFetching] = useState(false);
   const dataCount = data ? Math.ceil(data.length / 20) : 0;
   const [page, setPage] = useState(dataCount || 1);
-  const isNotValidCategory = isInvalidCategory(category);
+  const isNotValidCategory = isInvalidCategory(category, mediaType);
 
   useEffect(() => {
     if (dataCount === page) return;
