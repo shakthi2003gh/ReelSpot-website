@@ -5,6 +5,10 @@ import { getGenres } from "../http/genre.services";
 import { fetchMovie } from "../http/movie.services";
 import { fetchTvshow, fetchTvshowSeasons } from "../http/tvshow.services";
 
+const InitialMovies = JSON.parse(sessionStorage.getItem("movies-data"));
+const InitialTvshows = JSON.parse(sessionStorage.getItem("tvshows-data"));
+const InitialGenres = JSON.parse(sessionStorage.getItem("genres-data"));
+
 export const DataContext = createContext(null);
 
 export function useData(id, mediaType) {
@@ -12,7 +16,7 @@ export function useData(id, mediaType) {
   if (!media_types.includes(mediaType)) return Error("Invalid media type");
 
   const user = getUser();
-  const { movies, tvshows, genres } = useContext(DataContext);
+  const { movies, tvshows, genres } = useContext(DataContext) || {};
 
   const state = { movies, tvshows };
   let data = state[mediaType]?.[id];
@@ -35,9 +39,9 @@ export function useData(id, mediaType) {
 }
 
 export default function DataProvider({ children }) {
-  const [movies, setMovies] = useState({});
-  const [tvshows, setTvshows] = useState({});
-  const [genres, setGenres] = useState({});
+  const [movies, setMovies] = useState(InitialMovies || null);
+  const [tvshows, setTvshows] = useState(InitialTvshows || null);
+  const [genres, setGenres] = useState(InitialGenres || null);
   const navigate = useNavigate();
 
   const checkMovieExist = async (id, cachedCheck = false) => {
@@ -90,7 +94,12 @@ export default function DataProvider({ children }) {
   };
 
   useEffect(() => {
-    getGenres().then(setGenres);
+    if (genres) return;
+
+    getGenres().then((data) => {
+      setGenres(data);
+      sessionStorage.setItem("genres-data", JSON.stringify(data));
+    });
   }, []);
 
   const value = {

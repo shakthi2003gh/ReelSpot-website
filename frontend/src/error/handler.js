@@ -18,7 +18,7 @@ export const ErrorHandler = new (class {
     if (code === "ERR_NETWORK") this.handleNetworkError(message);
     else this.resetNetworkStatus();
 
-    if (isAuthError) this.handleAuthentication();
+    if (isAuthError) this.handleAuthentication(errorMessage);
     if (isClientError && !isAuthError) this.alert(errorMessage);
     if (isServerError) this.alert(errorMessage);
   }
@@ -38,8 +38,8 @@ export const ErrorHandler = new (class {
     this.isNetworkError.informed = false;
   }
 
-  handleAuthentication() {
-    this.alert("Authentication Failed");
+  handleAuthentication(message) {
+    this.alert(message);
   }
 
   alert(message) {

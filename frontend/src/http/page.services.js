@@ -19,21 +19,15 @@ function extractor(movies, tvshows) {
   };
 }
 
-export function fetchPages() {
+export function fetchPage(page) {
+  const movies = {};
+  const tvshows = {};
+  const extract = extractor(movies, tvshows);
+
   return new Promise(async (resolve, reject) => {
     try {
-      const movies = {};
-      const tvshows = {};
-      const extract = extractor(movies, tvshows);
-
-      const homeData = await getData("/home").then(extract);
-      const moviesData = await getData("/movies").then(extract);
-      const tvData = await getData("/tvshows").then(extract);
-
-      resolve({
-        page: { home: homeData, movies: moviesData, tvshows: tvData },
-        data: { movies, tvshows },
-      });
+      const data = await getData(`/${page}`).then(extract);
+      resolve({ page: data, data: { movies, tvshows } });
     } catch (e) {
       reject(e);
     }

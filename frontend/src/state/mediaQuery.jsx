@@ -7,7 +7,7 @@ export const MediaQueryContext = createContext(null);
 export default function MediaQueryProvider({ children }) {
   const isTabletDevice = useMediaQuery(500);
   const isDesktopDevice = useMediaQuery(1000);
-  const { isMenuOpen, setMenuOpen } = useContext(UIContext);
+  const { isMenuOpen, setMenuOpen } = useContext(UIContext) || {};
 
   useEffect(() => {
     if (isDesktopDevice && !isMenuOpen) setMenuOpen(true);

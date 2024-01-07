@@ -1,29 +1,34 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { fetchPages } from "../http/page.services";
+import { DataContext } from "./data";
+import { fetchPage } from "../http/page.services";
 import { fetchMoviesByCategory } from "../http/movie.services";
 import { fetchTvshowsByCategory } from "../http/tvshow.services";
 import { searchPage } from "../http/resource.services";
-import { DataContext } from "./data";
+
+const InitialHome = JSON.parse(sessionStorage.getItem("home-page"));
+const InitialMovies = JSON.parse(sessionStorage.getItem("movies-page"));
+const InitialTvshows = JSON.parse(sessionStorage.getItem("tvshows-page"));
 
 export const PageContext = createContext(null);
 
 export function getPage() {
-  const { home, movies, tvshows } = useContext(PageContext);
+  const { home, movies, tvshows } = useContext(PageContext) || {};
   return { home, movies, tvshows };
 }
 
 export function getCategoryPage(category, mediaType) {
-  const { categories } = useContext(PageContext);
+  const { categories } = useContext(PageContext) || {};
   return categories?.[mediaType]?.[category];
 }
 
 export default function PageProvider({ children }) {
-  const [home, setHome] = useState(null);
-  const [movies, setMovies] = useState(null);
-  const [tvshows, setTvshows] = useState(null);
+  const [home, setHome] = useState(InitialHome || null);
+  const [movies, setMovies] = useState(InitialMovies || null);
+  const [tvshows, setTvshows] = useState(InitialTvshows || null);
   const [categories, setCategories] = useState({});
 
-  const { setMovies: Movies, setTvshows: Tvshows } = useContext(DataContext);
+  const data = useContext(DataContext) || {};
+  const { setMovies: Movies, setTvshows: Tvshows } = data;
 
   const filterUniqueData = (data) =>
     data.filter((value, index, self) => {
@@ -76,17 +81,27 @@ export default function PageProvider({ children }) {
     });
   };
 
-  useEffect(() => {
-    fetchPages().then(({ page, data }) => {
-      const { home, movies, tvshows } = page;
+  function get(name, dispatch) {
+    const cacheData = (newData, name) => (prev) => {
+      const data = { ...prev, ...newData };
+      sessionStorage.setItem(name + "-data", JSON.stringify(data));
 
-      setHome(home);
-      setMovies(movies);
-      setTvshows(tvshows);
+      return data;
+    };
 
-      Movies((prev) => ({ ...prev, ...data.movies }));
-      Tvshows((prev) => ({ ...prev, ...data.tvshows }));
+    fetchPage(name).then(({ page, data }) => {
+      dispatch(page);
+      sessionStorage.setItem(name + "-page", JSON.stringify(page));
+
+      Movies(cacheData(data.movies, "movies"));
+      Tvshows(cacheData(data.tvshows, "tvshows"));
     });
+  }
+
+  useEffect(() => {
+    if (!home) get("home", setHome);
+    if (!movies) get("movies", setMovies);
+    if (!tvshows) get("tvshows", setTvshows);
   }, []);
 
   const value = {

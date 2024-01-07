@@ -7,24 +7,25 @@ import { favoriteTvshow, unFavoriteTvshow } from "./../http/tvshow.services";
 import { unWatchlistTvshow, watchlistTvshow } from "./../http/tvshow.services";
 
 const TOKEN = import.meta.env.VITE_TOKEN;
+const InitialValue = JSON.parse(sessionStorage.getItem("user"));
 
 export const UserContext = createContext(null);
 
 export function getUser() {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext) || {};
 
   return user;
 }
 
 export function getAppLoading() {
-  const { isLoading } = useContext(UserContext);
+  const { isLoading } = useContext(UserContext) || {};
 
   return isLoading;
 }
 
 export default function UserProvider({ children }) {
   const [isLoading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(InitialValue || null);
   const navigate = useNavigate();
 
   const loginUser = async (payload) => {
@@ -37,6 +38,7 @@ export default function UserProvider({ children }) {
   const logoutUser = () => {
     setUser(null);
     localStorage.removeItem(TOKEN);
+    sessionStorage.removeItem("user");
   };
 
   const signupUser = async (payload) => {
@@ -133,10 +135,13 @@ export default function UserProvider({ children }) {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem(TOKEN)) return setLoading(false);
+    if (!localStorage.getItem(TOKEN) || user) return setLoading(false);
 
     verifyUser()
-      .then(setUser)
+      .then((data) => {
+        setUser(data);
+        sessionStorage.setItem("user", JSON.stringify(data));
+      })
       .finally(() => setLoading(false));
   }, []);
 

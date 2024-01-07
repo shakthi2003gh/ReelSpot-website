@@ -7,7 +7,7 @@ import MediaQueryProvider, { MediaQueryContext } from "./mediaQuery";
 
 export function useFetch(fn) {
   const mediaQuery = useContext(MediaQueryContext);
-  const { theme, oppositeTheme, isMenuOpen } = useContext(UIContext);
+  const { theme, oppositeTheme, isMenuOpen } = useContext(UIContext) || {};
 
   const state = {
     mediaQuery,
@@ -18,13 +18,13 @@ export function useFetch(fn) {
 }
 
 export function useController() {
-  const { loginUser, logoutUser, signupUser } = useContext(UserContext);
-  const { addInFavorites, removeFromFavorites } = useContext(UserContext);
-  const { addInWatchlist, removeFromWatchlist } = useContext(UserContext);
-  const { checkCategory, searchData } = useContext(PageContext);
-  const { checkMovieExist, checkTvshowExist } = useContext(DataContext);
-  const { checkTvshowSeasonsExist } = useContext(DataContext);
-  const { toggleTheme, toggleMenuOpen } = useContext(UIContext);
+  const { loginUser, logoutUser, signupUser } = useContext(UserContext) || {};
+  const { addInFavorites, removeFromFavorites } = useContext(UserContext) || {};
+  const { addInWatchlist, removeFromWatchlist } = useContext(UserContext) || {};
+  const { checkCategory, searchData } = useContext(PageContext) || {};
+  const { checkMovieExist, checkTvshowExist } = useContext(DataContext) || {};
+  const { checkTvshowSeasonsExist } = useContext(DataContext) || {};
+  const { toggleTheme, toggleMenuOpen } = useContext(UIContext) || {};
 
   return {
     toggleTheme,
